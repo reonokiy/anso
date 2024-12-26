@@ -3,7 +3,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    devenv.url = "github:cachix/devenv";
     nixos-anywhere.url = "github:nix-community/nixos-anywhere";
     deploy-rs.url = "github:serokell/deploy-rs";
     disko.url = "github:nix-community/disko";
@@ -25,23 +24,33 @@
       deploy-rs,
       disko,
       sops-nix,
+      nixos-anywhere,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        inputs.devenv.flakeModule
-      ];
-
       systems = [
         "aarch64-linux"
         "x86_64-linux"
       ];
 
-      perSystem = {
-        devenv.shells.default = {
-          imports = [ ./devenv.nix ];
+      perSystem =
+        {
+          pkgs,
+          system,
+          ...
+        }:
+        {
+          devShells.default = pkgs.mkShell {
+            name = "default";
+            packages = [
+              pkgs.just
+              pkgs.python3
+              pkgs.openssh
+              nixos-anywhere.packages.${system}.default
+              deploy-rs.packages.${system}.default
+            ];
+          };
         };
-      };
 
       flake = {
         nixosConfigurations.buno = nixpkgs.lib.nixosSystem {
@@ -60,6 +69,7 @@
           hostname = "buno";
           profiles.system = {
             user = "root";
+            sshUser = "root";
             path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.buno;
           };
         };
