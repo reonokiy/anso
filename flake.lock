@@ -498,7 +498,25 @@
         "flake-parts": "flake-parts_2",
         "nixos-anywhere": "nixos-anywhere",
         "nixpkgs": "nixpkgs_7",
+        "secrets": "secrets",
         "sops-nix": "sops-nix"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1735221985,
+        "narHash": "sha256-+UBWjpq50GWke4muTkXh0SV1t8E6wzbNyVAM7/gEeGA=",
+        "ref": "main",
+        "rev": "a89e6b4d7a42462fe14e8ba0d9d5e321eefd4d6a",
+        "revCount": 2,
+        "type": "git",
+        "url": "ssh://git@github.com/reonokiy/anso-secrets.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@github.com/reonokiy/anso-secrets.git"
       }
     },
     "sops-nix": {
