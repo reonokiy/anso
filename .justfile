@@ -1,13 +1,11 @@
 build-on-remote := "false"
 generate-hardware-config := "false"
 initrd-ssh-key := "true"
-luks-disk-key := "secret"
-
 
 default:
     @just --choose
 
-install host target:
+install host target luks age:
     #!/usr/bin/env python3
     import os
     import tempfile
@@ -28,12 +26,18 @@ install host target:
     os.system(f"ssh-keygen -lf {tmp_ssh_key_file}")
     os.chmod(tmp_ssh_key_file, 0o600)
     print(f"[install] SSH key dir: {tmp_ssh_dir}")
+    tmp_age_key_dir = os.path.join(tmp_dir, "var/lib/sops-nix")
+    tmp_age_key_file = os.path.join(tmp_age_key_dir, "key.txt")
+    os.makedirs(tmp_age_key_dir, exist_ok=True)
+    with open(tmp_age_key_file, "w") as f:
+        f.write("{{age}}")
+    print(f"[install] Age key: {tmp_age_key_file}")
 
     print("[install] Preparing luks disk key...")
     tmp_dir1 = tempfile.mkdtemp()
     disk_key_file = os.path.join(tmp_dir1, "disk.key")
     with open(disk_key_file, "w") as f:
-        f.write("{{luks-disk-key}}")
+        f.write("{{luks}}")
     disk_encryption_key_command = f"--disk-encryption-keys /tmp/disk.key {disk_key_file}"
     print(f"[install] Disk key: {disk_key_file}")
 
