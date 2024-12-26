@@ -7,6 +7,10 @@
     nixos-anywhere.url = "github:nix-community/nixos-anywhere";
     deploy-rs.url = "github:serokell/deploy-rs";
     disko.url = "github:nix-community/disko";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -16,6 +20,7 @@
       flake-parts,
       deploy-rs,
       disko,
+      sops-nix,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -42,6 +47,7 @@
           };
           modules = [
             disko.nixosModules.disko
+            sops-nix.nixosModules.sops
             ./hosts/buno
           ];
         };
