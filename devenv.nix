@@ -11,7 +11,6 @@
     pkgs.just
     pkgs.python3
     pkgs.openssh
-    pkgs.sops
   ];
 
   git-hooks.hooks = {
