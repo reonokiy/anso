@@ -2,7 +2,7 @@
   imports = [
     ./configuration.nix
     ./disko.nix
-    ./k3s.nix
+    # ./k3s.nix
     ./hardware-configuration.nix
     ./networking.nix
     ./sops.nix

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ inputs, config, ... }:
 
 {
   sops.secrets."fly0/private_key" = { };
@@ -26,43 +26,65 @@
   networking.nat = {
     enable = true;
     externalInterface = "eth0";
-    internalInterfaces = [ "eth1" ];
+    internalInterfaces = [
+      "eth1"
+      "enso0"
+    ];
   };
 
-  networking.wg-quick.interfaces.fly0 = {
-    autostart = true;
-    privateKeyFile = config.sops.secrets."fly0/private_key".path;
-    address = [ "fdaa:9:7373:a7b:163a:0:a:2/120" ];
-    dns = [ "fdaa:9:7373::3" ];
-    peers = [
-      {
-        publicKey = "DBn8uXwmcc4A06//C0T3bX9gjNp0eh/EzS4MDjnSKhc=";
-        allowedIPs = [ "fdaa:9:7373::/48" ];
-        endpoint = "fra1.gateway.6pn.dev:51820";
-        persistentKeepalive = 15;
-      }
-    ];
+  sops.secrets."enso0/private_key" = { };
+  sops.secrets."enso0/aios/public_key" = {
+    sopsFile = "${inputs.secrets}/wireguard.yaml";
+  };
+  sops.secrets."enso0/aios/preshared_key" = {
+    sopsFile = "${inputs.secrets}/wireguard.yaml";
+  };
+  sops.secrets."enso0/aios/endpoint/public_ipv4" = {
+    sopsFile = "${inputs.secrets}/wireguard.yaml";
+  };
+  sops.secrets."enso0/cove/public_key" = {
+    sopsFile = "${inputs.secrets}/wireguard.yaml";
+  };
+  sops.secrets."enso0/cove/preshared_key" = {
+    sopsFile = "${inputs.secrets}/wireguard.yaml";
+  };
+  sops.secrets."enso0/cove/endpoint/public_ipv4" = {
+    sopsFile = "${inputs.secrets}/wireguard.yaml";
+  };
+  sops.templates."enso0.conf" = {
+    content = ''
+      [Interface]
+      Address = 10.41.0.2/16,2001:cafe:41:2::1/48
+      ListenPort = 51820
+      DNS = 1.1.1.1,8.8.8.8
+      PrivateKey = ${config.sops.placeholder."enso0/private_key"}
+
+      [Peer]
+      PublicKey = ${config.sops.placeholder."enso0/aios/public_key"}
+      PresharedKey = ${config.sops.placeholder."enso0/aios/preshared_key"}
+      AllowedIPs = 10.41.0.1/32,2001:cafe:41:1::1/64,10.41.0.1/16,2001:cafe:41:1::1/48
+      Endpoint = ${config.sops.placeholder."enso0/aios/endpoint/public_ipv4"}
+      PersistentKeepalive = 25
+
+      [Peer]
+      PublicKey = ${config.sops.placeholder."enso0/cove/public_key"}
+      PresharedKey = ${config.sops.placeholder."enso0/cove/preshared_key"}
+      AllowedIPs = 10.41.0.3/32,2001:cafe:41:3::1/64,10.41.0.3/16,2001:cafe:41:3::1/48
+      Endpoint = ${config.sops.placeholder."enso0/cove/endpoint/public_ipv4"}
+      PersistentKeepalive = 25
+    '';
   };
 
   networking.wg-quick.interfaces.enso0 = {
     autostart = true;
-    privateKeyFile = config.sops.secrets."enso0/private_key".path;
-    address = [
-      "10.41.0.2/32"
-      "2001:cafe:41:2::1/64"
-    ];
-    dns = [
-      "1.1.1.1"
-      "8.8.8.8"
-      "2606:4700:4700::1111"
-      "2001:4860:4860::8888"
-    ];
-    peers = [ ];
+    configFile = config.sops.templates."enso0.conf".path;
   };
 
   networking.firewall.enable = true;
-  networking.firewall.interfaces.eth0 = {
+  networking.firewall = {
     allowedTCPPorts = [ ];
-    allowedUDPPorts = [ ];
+    allowedUDPPorts = [
+      51820 # WireGuard
+    ];
   };
 }
