@@ -2,6 +2,7 @@
 
 {
   sops.secrets."fly0/private_key" = { };
+  sops.secrets."enso0/private_key" = { };
 
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
@@ -41,5 +42,27 @@
         persistentKeepalive = 15;
       }
     ];
+  };
+
+  networking.wg-quick.interfaces.enso0 = {
+    autostart = true;
+    privateKeyFile = config.sops.secrets."enso0/private_key".path;
+    address = [
+      "10.41.0.2/32"
+      "2001:cafe:41:2::1/64"
+    ];
+    dns = [
+      "1.1.1.1"
+      "8.8.8.8"
+      "2606:4700:4700::1111"
+      "2001:4860:4860::8888"
+    ];
+    peers = [ ];
+  };
+
+  networking.firewall.enable = true;
+  networking.firewall.interfaces.eth0 = {
+    allowedTCPPorts = [ ];
+    allowedUDPPorts = [ ];
   };
 }
