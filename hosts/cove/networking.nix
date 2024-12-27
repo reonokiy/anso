@@ -30,19 +30,16 @@
   };
 
   sops.secrets."enso0/private_key" = { };
-  sops.secrets."enso0/aios/public_key" = {
+  sops.secrets."enso0/preshared_key" = {
     sopsFile = "${inputs.secrets}/wireguard.yaml";
   };
-  sops.secrets."enso0/aios/preshared_key" = {
+  sops.secrets."enso0/aios/public_key" = {
     sopsFile = "${inputs.secrets}/wireguard.yaml";
   };
   sops.secrets."enso0/aios/endpoint/public_ipv4" = {
     sopsFile = "${inputs.secrets}/wireguard.yaml";
   };
   sops.secrets."enso0/buno/public_key" = {
-    sopsFile = "${inputs.secrets}/wireguard.yaml";
-  };
-  sops.secrets."enso0/buno/preshared_key" = {
     sopsFile = "${inputs.secrets}/wireguard.yaml";
   };
   sops.secrets."enso0/buno/endpoint/public_ipv4" = {
@@ -58,15 +55,15 @@
 
       [Peer]
       PublicKey = ${config.sops.placeholder."enso0/aios/public_key"}
-      PresharedKey = ${config.sops.placeholder."enso0/aios/preshared_key"}
-      AllowedIPs = 10.41.0.1/32,2001:cafe:41:1::1/64,10.41.0.1/16,2001:cafe:41:1::1/48
+      PresharedKey = ${config.sops.placeholder."enso0/preshared_key"}
+      AllowedIPs = 10.41.0.1/32,2001:cafe:41:1::1/128,10.41.0.0/16,2001:cafe:41::/48
       Endpoint = ${config.sops.placeholder."enso0/aios/endpoint/public_ipv4"}
       PersistentKeepalive = 25
 
       [Peer]
       PublicKey = ${config.sops.placeholder."enso0/buno/public_key"}
-      PresharedKey = ${config.sops.placeholder."enso0/buno/preshared_key"}
-      AllowedIPs = 10.41.0.2/32,2001:cafe:41:2::1/64,10.41.0.2/16,2001:cafe:41:2::1/48
+      PresharedKey = ${config.sops.placeholder."enso0/preshared_key"}
+      AllowedIPs = 10.41.0.2/32,2001:cafe:41:2::1/128,10.41.0.0/16,2001:cafe:41::/48
       Endpoint = ${config.sops.placeholder."enso0/buno/endpoint/public_ipv4"}
       PersistentKeepalive = 25
     '';
