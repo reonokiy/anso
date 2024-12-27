@@ -62,3 +62,10 @@ install host target luks age:
     # cleanup
     os.system(f"rm -rf {tmp_dir}")
     os.system(f"rm -rf {tmp_dir1}")
+
+wg-gen:
+    #!/usr/bin/env bash
+    private_key=$(wg genkey)
+    public_key=$(echo "$private_key" | wg pubkey)
+    echo "Public key:  $public_key"
+    echo "Private key: $private_key"

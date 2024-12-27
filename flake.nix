@@ -46,6 +46,7 @@
               pkgs.just
               pkgs.python3
               pkgs.openssh
+              pkgs.wireguard-tools
               nixos-anywhere.packages.${system}.default
               deploy-rs.packages.${system}.default
             ];
@@ -65,12 +66,33 @@
           ];
         };
 
+        nixosConfigurations.cove = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+            ./hosts/cove
+          ];
+        };
+
         deploy.nodes.buno = {
           hostname = "buno";
           profiles.system = {
             user = "root";
             sshUser = "root";
             path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.buno;
+          };
+        };
+
+        deploy.nodes.cove = {
+          hostname = "cove";
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.cove;
           };
         };
 
