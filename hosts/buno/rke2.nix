@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  pkgs,
   ...
 }:
 
@@ -31,6 +32,8 @@
             - "https://mirror.gcr.io"
     '';
   };
+
+  environment.defaultPackages = with pkgs; [ openiscsi ];
 
   services.rke2 = {
     enable = true;
