@@ -1,4 +1,9 @@
-{ inputs, config, ... }:
+{
+  inputs,
+  config,
+  machine,
+  ...
+}:
 
 {
   sops.secrets."fly0/private_key" = { };
@@ -12,22 +17,35 @@
   networking = {
     hostName = "buno";
     enableIPv6 = true;
+    useNetworkd = true;
     usePredictableInterfaceNames = true;
-    interfaces.enp7s0 = {
-      name = "eth0";
-      useDHCP = true;
-    };
-    interfaces.enp9s0 = {
-      name = "eth1";
-      useDHCP = false;
-    };
+  };
+
+  systemd.network.networks."10-wan" = {
+    name = machine.interfaces.eth0.name;
+    DHCP = "ipv4";
+    address = machine.interfaces.eth0.ipv6.address;
+    gateway = machine.interfaces.eth0.ipv6.gateway;
+  };
+
+  systemd.network.networks."11-lan" = {
+    name = machine.interfaces.eth1.name;
+    DHCP = "ipv4";
+  };
+
+  systemd.network.networks."20-enso" = {
+    name = "enso0";
+    address = [
+      "10.41.0.2/16"
+      "2001:cafe:41:2::1/48"
+    ];
   };
 
   networking.nat = {
     enable = true;
-    externalInterface = "eth0";
+    externalInterface = machine.interfaces.eth0.name;
     internalInterfaces = [
-      "eth1"
+      machine.interfaces.eth1.name
       "enso0"
     ];
   };
@@ -78,18 +96,15 @@
   };
 
   networking.firewall.enable = true;
+  networking.firewall.trustedInterfaces = [
+    "enso+"
+    "cilium+"
+    "lxc+"
+  ];
   networking.firewall.interfaces.eth0 = {
     allowedTCPPorts = [ ];
     allowedUDPPorts = [
       51820 # WireGuard
-    ];
-  };
-  networking.firewall.interfaces.enso0 = {
-    allowedTCPPorts = [
-      2379 # etcd
-      2380 # etcd
-      6443 # api-server
-      10250 # metrics-server
     ];
   };
 }

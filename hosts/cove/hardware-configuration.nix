@@ -21,12 +21,7 @@
     "sr_mod"
   ];
   boot.initrd.kernelModules = [ "virtio_gpu" ];
-  boot.kernelModules = [
-    "ip6_tables"
-    "ip6table_mangle"
-    "ip6table_raw"
-    "ip6table_filter"
-  ];
+  boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
   boot.kernelParams = [
     "console=ttyAMA0"

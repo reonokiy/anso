@@ -8,8 +8,10 @@
   sops.secrets."token" = {
     sopsFile = "${inputs.secrets}/rke2.yaml";
   };
+
   sops.templates."rke2.yaml" = {
     content = ''
+      token: ${config.sops.placeholder."token"}
       # must sync between servers
       cluster-dns: 10.43.0.10
       cluster-cidr: 10.42.0.0/16,2001:cafe:42::/56
@@ -35,8 +37,8 @@
     cni = "cilium";
     role = "server";
     selinux = true;
-    nodeIP = "10.41.0.3,2001:cafe:41:3::1";
-    tokenFile = config.sops.secrets."token".path;
+    serverAddr = "https://10.41.0.3:9345";
+    nodeIP = "10.41.0.2,2001:cafe:41:2::1";
     configPath = config.sops.templates."rke2.yaml".path;
   };
 
@@ -46,6 +48,7 @@
     "kernel.panic=10"
     "kernel.panic_on_oops=1"
   ];
+
   boot.kernelModules = [
     "ip6_tables"
     "ip6table_mangle"

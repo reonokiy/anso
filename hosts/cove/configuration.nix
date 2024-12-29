@@ -1,5 +1,3 @@
-{ pkgs, ... }:
-
 {
   system.stateVersion = "24.11";
   time.timeZone = "Europe/Berlin";
@@ -31,11 +29,6 @@
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 1w";
-  };
-
-  zramSwap = {
-    enable = true;
-    memoryPercent = 100;
   };
 
   users.users = {

@@ -56,9 +56,13 @@
       flake = {
         nixosConfigurations.buno = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
+          specialArgs =
+            let
+              machine = import (inputs.secrets + "/buno.nix");
+            in
+            {
+              inherit inputs machine;
+            };
           modules = [
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
@@ -68,9 +72,13 @@
 
         nixosConfigurations.cove = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
+          specialArgs =
+            let
+              machine = import (inputs.secrets + "/cove.nix");
+            in
+            {
+              inherit inputs machine;
+            };
           modules = [
             disko.nixosModules.disko
             sops-nix.nixosModules.sops

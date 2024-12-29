@@ -1,5 +1,3 @@
-{ pkgs, ... }:
-
 {
   time.timeZone = "Europe/Berlin";
   system.stateVersion = "24.11";
@@ -32,27 +30,11 @@
     options = "--delete-older-than 1w";
   };
 
-  zramSwap = {
-    enable = true;
-    memoryPercent = 100;
-  };
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 4 * 1024; # 4 GiB
-    }
-  ];
-
   users.users = {
     root.openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDHUXigvKgHHaOQcE+xr8uZPZuj2JSRk0dFEEzDsaZBy"
     ];
   };
-
-  environment.systemPackages = with pkgs; [
-    htop
-    dig
-  ];
 
   services = {
     openssh = {
