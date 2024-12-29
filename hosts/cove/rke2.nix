@@ -31,8 +31,6 @@
     '';
   };
 
-  environment.defaultPackages = with pkgs; [ openiscsi ];
-
   services.rke2 = {
     enable = true;
     cni = "cilium";
@@ -54,5 +52,12 @@
     "ip6table_mangle"
     "ip6table_raw"
     "ip6table_filter"
+  ];
+
+  # fix longhorn
+  # thanks https://github.com/longhorn/longhorn/issues/2166
+  environment.defaultPackages = with pkgs; [ openiscsi ];
+  systemd.tmpfiles.rules = [
+    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
   ];
 }
