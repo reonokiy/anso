@@ -83,6 +83,7 @@
           profiles.system = {
             user = "root";
             sshUser = "root";
+            autoRollback = false;
             path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.buno;
           };
         };
@@ -92,6 +93,7 @@
           profiles.system = {
             user = "root";
             sshUser = "root";
+            autoRollback = false;
             path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.cove;
           };
         };

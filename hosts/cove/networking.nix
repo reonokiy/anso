@@ -74,8 +74,8 @@
     configFile = config.sops.templates."enso0.conf".path;
   };
 
-  networking.firewall.enable = true;
-  networking.firewall = {
+  networking.firewall.enable = false;
+  networking.firewall.interfaces.eth0 = {
     allowedTCPPorts = [ ];
     allowedUDPPorts = [
       51820 # WireGuard

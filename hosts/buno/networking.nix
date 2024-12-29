@@ -78,10 +78,18 @@
   };
 
   networking.firewall.enable = true;
-  networking.firewall = {
+  networking.firewall.interfaces.eth0 = {
     allowedTCPPorts = [ ];
     allowedUDPPorts = [
       51820 # WireGuard
+    ];
+  };
+  networking.firewall.interfaces.enso0 = {
+    allowedTCPPorts = [
+      2379 # etcd
+      2380 # etcd
+      6443 # api-server
+      10250 # metrics-server
     ];
   };
 }
