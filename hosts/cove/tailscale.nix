@@ -10,6 +10,8 @@
     authKeyFile = config.sops.secrets."tailscale/auth_key".path;
     disableTaildrop = true;
     useRoutingFeatures = "both";
-    extraUpFlags = [ "--advertise-routes=10.41.0.0/16,2001:cafe:41::/48" ];
+    extraUpFlags = [
+      "--advertise-routes=10.41.0.0/16,10.42.0.0/16,10.43.0.0/16"
+    ];
   };
 }
