@@ -33,9 +33,14 @@
 
   services.rke2 = {
     enable = true;
-    cni = "cilium";
+    cni = "none";
     role = "server";
     selinux = true;
+    disable = [
+      "rke2-ingress-nginx"
+      "rke2-coredns"
+      "rke2-metrics-server"
+    ];
     nodeIP = "10.41.0.3,2001:cafe:41:3::1";
     tokenFile = config.sops.secrets."token".path;
     configPath = config.sops.templates."rke2.yaml".path;

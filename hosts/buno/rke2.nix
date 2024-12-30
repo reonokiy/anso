@@ -35,9 +35,14 @@
 
   services.rke2 = {
     enable = true;
-    cni = "cilium";
+    cni = "none";
     role = "server";
     selinux = true;
+    disable = [
+      "rke2-ingress-nginx"
+      "rke2-coredns"
+      "rke2-metrics-server"
+    ];
     serverAddr = "https://10.41.0.3:9345";
     nodeIP = "10.41.0.2,2001:cafe:41:2::1";
     configPath = config.sops.templates."rke2.yaml".path;
