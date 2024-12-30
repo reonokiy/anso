@@ -35,13 +35,13 @@
 
   services.rke2 = {
     enable = true;
-    cni = "none";
+    cni = "cilium";
     role = "server";
     selinux = true;
     disable = [
-      "rke2-ingress-nginx"
-      "rke2-coredns"
-      "rke2-metrics-server"
+      # "rke2-ingress-nginx"
+      # "rke2-coredns"
+      # "rke2-metrics-server"
     ];
     serverAddr = "https://10.41.0.3:9345";
     nodeIP = "10.41.0.2,2001:cafe:41:2::1";
