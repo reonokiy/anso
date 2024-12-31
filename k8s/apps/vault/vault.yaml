@@ -30,8 +30,8 @@ spec:
         tag: "1.6.1"
 
       agentImage:
-        repository: "vault"
-        tag: "1.13.3"
+        repository: "hashicorp/vault"
+        tag: "1.18.3"
 
       agentDefaults:
         cpuLimit: "500m"
@@ -48,6 +48,7 @@ spec:
           cpu: 250m
 
     server:
+      enabled: true
       affinity: ""
 
       image:
