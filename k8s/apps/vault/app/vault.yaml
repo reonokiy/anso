@@ -33,7 +33,7 @@ spec:
       tag: "1.18"
 
       ha:
-        enabled: true
+        enabled: false
         replicas: 3
         raft:
           enabled: true
