@@ -19,18 +19,11 @@ spec:
     global:
       enabled: true
       tlsDisable: false
-      resources:
-        requests:
-          memory: 256Mi
-          cpu: 250m
-        limits:
-          memory: 256Mi
-          cpu: 250m
 
     server:
       repository: "hashicorp/vault"
-      tag: "1.18"
-      affinity: null
+      tag: "1.18.3"
+      affinity: ""
 
       ha:
         enabled: true
