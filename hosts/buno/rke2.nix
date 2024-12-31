@@ -68,4 +68,9 @@
   systemd.tmpfiles.rules = [
     "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
   ];
+
+  services.openiscsi = {
+    enable = true;
+    name = "${config.networking.hostName}-initiatorhost";
+  };
 }
