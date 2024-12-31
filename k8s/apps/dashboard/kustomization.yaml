@@ -1,7 +1,8 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+metadata:
+  name: dashboard
+  namespace: flux-system
 resources:
-  - dashboard
-  - fediverse
-  # - vault
+  - dashboard.yaml
