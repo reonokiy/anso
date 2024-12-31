@@ -20,10 +20,47 @@ spec:
       enabled: true
       tlsDisable: false
 
-    server:
-      repository: "hashicorp/vault"
-      tag: "1.18.3"
+    injector:
+      enabled: true
+      replicas: 3
       affinity: ""
+
+      image:
+        repository: "hashicorp/vault-k8s"
+        tag: "1.6.1"
+
+      agentImage:
+        repository: "vault"
+        tag: "1.13.3"
+
+      agentDefaults:
+        cpuLimit: "500m"
+        cpuRequest: "250m"
+        memLimit: "128Mi"
+        memRequest: "64Mi"
+
+      resources:
+        requests:
+          memory: 256Mi
+          cpu: 250m
+        limits:
+          memory: 256Mi
+          cpu: 250m
+
+    server:
+      affinity: ""
+
+      image:
+        repository: "hashicorp/vault"
+        tag: "1.18.3"
+
+      resources:
+        requests:
+          memory: 256Mi
+          cpu: 250m
+        limits:
+          memory: 512Mi
+          cpu: 500m
 
       ha:
         enabled: true
@@ -63,14 +100,24 @@ spec:
               }
             }
 
+      readinessProbe:
+        enabled: true
+        path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+      livenessProbe:
+        enabled: true
+        path: "/v1/sys/health?standbyok=true"
+        initialDelaySeconds: 60
+
       dataStorage:
         enabled: true
         size: 5Gi
         mountPath: "/vault/data"
+        storageClass: longhorn
       auditStorage:
         enabled: true
         size: 5Gi
         mountPath: "/vault/audit"
+        storageClass: longhorn
       persistentVolumeClaimRetentionPolicy:
         whenDeleted: Retain
         whenScaled: Retain
