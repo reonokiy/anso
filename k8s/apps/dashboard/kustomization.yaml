@@ -6,3 +6,4 @@ metadata:
   namespace: flux-system
 resources:
   - dashboard.yaml
+  - service-account.yaml
