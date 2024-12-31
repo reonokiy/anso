@@ -15,3 +15,12 @@ spec:
         kind: HelmRepository
         name: longhorn-charts
         namespace: flux-system
+  values:
+    networkPolicies:
+      enable: true
+      type: "rke2"
+    persistence:
+      defaultClass: true
+      defaultFsType: ext4
+      defaultDataLocality: best-effort
+      migratable: true
