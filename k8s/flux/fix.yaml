@@ -2,17 +2,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: core
+  name: fix
   namespace: flux-system
 spec:
   interval: 5m
   timeout: 1m
   retryInterval: 30s
-  path: ./k8s/core
+  path: ./k8s/fix
   dependsOn:
     - name: namespaces
     - name: sources
-    - name: fix
   force: true
   prune: true
   wait: true
