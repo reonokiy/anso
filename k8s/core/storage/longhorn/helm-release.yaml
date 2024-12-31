@@ -17,7 +17,7 @@ spec:
         namespace: flux-system
   values:
     networkPolicies:
-      enable: true
+      enable: false
       type: "rke2"
     persistence:
       defaultClass: true
