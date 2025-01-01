@@ -2,21 +2,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: elk-ingress
-  namespace: app-default
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  name: elk
+  namespace: elk-app
 spec:
-  ingressClassName: nginx
-  rules:
-    - host: elk.nokiy.net
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: elk-service
-                port:
-                  number: 80
+  defaultBackend:
+    service:
+      name: elk
+      port:
+        number: 80
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - elk
