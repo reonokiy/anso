@@ -63,6 +63,14 @@ spec:
           memory: 512Mi
           cpu: 500m
 
+      extraVolumes:
+        - type: secret
+          name: tls-ca
+          path: /vault/userconfig/tls-ca
+        - type: secret
+          name: tls-server
+          path: /vault/userconfig/tls-server
+
       ha:
         enabled: true
         replicas: 3
