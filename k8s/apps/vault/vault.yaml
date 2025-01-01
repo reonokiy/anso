@@ -63,13 +63,31 @@ spec:
           memory: 512Mi
           cpu: 500m
 
-      extraVolumes:
-        - type: secret
+      volumes:
+        - name: tls-ca
+          secret:
+            secretName: tls-ca
+            items:
+              - key: tls.key
+                path: ca.key
+              - key: tls.crt
+                path: ca.crt
+        - name: tls-server
+          secret:
+            secretName: tls-server
+            items:
+              - key: tls.key
+                path: tls.key
+              - key: tls.crt
+                path: tls.crt
+
+      volumeMounts:
+        - mountPath: "/vault/userconfig/tls-ca"
           name: tls-ca
-          path: /vault/userconfig/tls-ca
-        - type: secret
+          readOnly: true
+        - mountPath: "/vault/userconfig/tls-server"
           name: tls-server
-          path: /vault/userconfig/tls-server
+          readOnly: true
 
       ha:
         enabled: true
