@@ -10,5 +10,6 @@ resources:
   - charts/kyverno-charts.yaml
   - charts/longhorn-charts.yaml
   - charts/metrics-server-charts.yaml
+  - charts/postgres-operator-charts.yaml
   - charts/tailscale-charts.yaml
   - charts/traefik-charts.yaml
