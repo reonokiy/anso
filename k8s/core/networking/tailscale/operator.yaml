@@ -20,8 +20,8 @@ spec:
       clientId:
         secretKeyRef:
           name: tailscale-secrets
-          key: client_id
+          key: clientId
       clientSecret:
         secretKeyRef:
           name: tailscale-secrets
-          key: client_secret
+          key: clientSecret
