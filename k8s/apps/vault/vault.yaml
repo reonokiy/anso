@@ -119,12 +119,12 @@ spec:
 
       dataStorage:
         enabled: true
-        size: 5Gi
+        size: 1Gi
         mountPath: "/vault/data"
         storageClass: longhorn
       auditStorage:
         enabled: true
-        size: 5Gi
+        size: 1Gi
         mountPath: "/vault/audit"
         storageClass: longhorn
       persistentVolumeClaimRetentionPolicy:
