@@ -18,7 +18,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elk
-  namespace: app-default
+  namespace: elk-app
   labels:
     app: elk
 spec:
