@@ -16,5 +16,5 @@ spec:
         name: jetstack-charts
         namespace: flux-system
   values:
-    crds:
-      enabled: true
+    crds.enable: true
+    crds.keep: true
