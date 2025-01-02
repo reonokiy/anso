@@ -6,9 +6,9 @@ metadata:
   namespace: elk-app
   labels:
     app: elk
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "elk"
+  # annotations:
+  #   tailscale.com/expose: "true"
+  #   tailscale.com/hostname: "elk"
 
 spec:
   ports:
