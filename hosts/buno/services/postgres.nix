@@ -34,7 +34,7 @@
     enable = true;
     compression = "zstd";
     databases = [ "matrix-synapse" ];
-    location = "/data/postgresql/backup";
+    location = "/data/postgres/backup";
     startAt = "*-*-* 08:15:00";
   };
 }

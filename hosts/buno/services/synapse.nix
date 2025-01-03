@@ -9,7 +9,7 @@ let
   httpPort = 30010;
   maxBodySize = "200M";
   clientConfig."m.homeserver".base_url = "https://synapse.nokiy.net";
-  clientConfig."m.identity_server" = "https://vector.im";
+  clientConfig."m.identity_server".base_url = "https://vector.im";
   serverConfig."m.server" = "synapse.nokiy.net:443";
   mkWellKnown = data: ''
     default_type application/json;
@@ -48,7 +48,7 @@ in
   sops.templates."synapse.yaml" = {
     content = ''
       ## Server Part
-      server_name: synapse.nokiy.net
+      server_name: nokiy.net
       web_client_location: https://element.nokiy.net
       public_baseurl: https://synapse.nokiy.net/
       serve_server_wellknown: true
@@ -228,6 +228,20 @@ in
       media_store_path: "/data/synapse/server/media_store"
 
       max_upload_size: ${maxBodySize}
+
+      ## to enable QR code verification
+      ## https://github.com/matrix-org/synapse/issues/15918#issuecomment-1631439515
+      login_via_existing_session:
+        enabled: true
+        require_ui_auth: true
+        token_timeout: "1m"
+      modules:
+        - module: matrix_http_rendezvous_synapse.SynapseRendezvousModule
+          config:
+            prefix: /_synapse/client/org.matrix.msc3886/rendezvous
+      experimental_features:
+        msc3886_enabled: true
+        msc3886_endpoint: /_synapse/client/org.matrix.msc3886/rendezvous
     '';
     mode = "0440";
     owner = "matrix-synapse";
@@ -260,6 +274,7 @@ in
     plugins = with config.services.matrix-synapse.package.plugins; [
       matrix-synapse-s3-storage-provider
       matrix-synapse-mjolnir-antispam
+      matrix-http-rendezvous-synapse
     ];
     extras = [
       "cache-memory" # Provide statistics about caching memory consumption
@@ -275,8 +290,7 @@ in
   };
 
   services.nginx.virtualHosts."synapse.nokiy.net" = {
-    enableACME = false;
-    useACMEHost = "nokiy.net";
+    enableACME = true;
     forceSSL = true;
     listen = listenAddrs;
     locations."~ ^(/_matrix|/_synapse/client)" = {
@@ -292,19 +306,17 @@ in
   };
 
   services.nginx.virtualHosts."element.nokiy.net" = {
-    enableACME = false;
-    useACMEHost = "nokiy.net";
+    enableACME = true;
     listen = listenAddrs;
     root = pkgs.element-web.override {
       conf = {
         default_server_config = clientConfig;
-        default_server_name = "synapse.nokiy.net";
+        default_server_name = "nokiy.net";
       };
     };
   };
   services.nginx.virtualHosts."nokiy.net" = {
-    enableACME = false;
-    useACMEHost = "nokiy.net";
+    enableACME = true;
     forceSSL = true;
     listen = listenAddrs;
     locations."= /.well-known/matrix/server".extraConfig = mkWellKnown serverConfig;
