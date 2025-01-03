@@ -4,8 +4,10 @@
     ./disko.nix
     ./hardware-configuration.nix
     ./networking.nix
-    # ./rke2.nix
+    ./nginx.nix
     ./sops.nix
     ./tailscale.nix
+    ../../share
+    ./services
   ];
 }
