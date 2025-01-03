@@ -38,13 +38,27 @@
   networking.firewall.trustedInterfaces = [
     "podman+"
   ];
-  networking.firewall.interfaces."${machine.interfaces.eth0.name}" = {
-    allowedTCPPorts = [
-      80
-      443
-    ];
-    allowedUDPPorts = [
-      # 51820 # WireGuard
-    ];
-  };
+  networking.firewall.interfaces."${machine.interfaces.eth0.name}" =
+    let
+      range = with config.services.coturn; [
+        {
+          from = min-port;
+          to = max-port;
+        }
+      ];
+    in
+    {
+      allowedTCPPorts = [
+        80
+        443
+        3478
+        5349
+      ];
+      allowedUDPPorts = [
+        # 51820 # WireGuard
+        3478
+        5349
+      ];
+      allowedUDPPortRanges = range;
+    };
 }

@@ -42,6 +42,15 @@
         domain = "*.internal.nokiy.net";
         extraDomainNames = [ "internal.nokiy.net" ];
       };
+      # "auth.nokiy.net" = {
+      #   domain = "auth.internal.nokiy.net";
+      # };
+      # "synapse.nokiy.net" = {
+      #   domain = "synapse.nokiy.net";
+      # };
+      # "element.nokiy.net" = {
+      #   domain = "element.nokiy.net";
+      # };
     };
   };
 }
