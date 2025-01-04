@@ -52,7 +52,7 @@ in
 
   services.nginx.virtualHosts."auth.nokiy.net" = {
     enableACME = false;
-    useACMEHost = "nokiy.net";
+    useACMEHost = "auth.nokiy.net";
     forceSSL = true;
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString httpPort}";

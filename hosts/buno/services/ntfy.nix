@@ -14,7 +14,7 @@ in
 
   services.nginx.virtualHosts."ntfy.nokiy.net" = {
     enableACME = false;
-    useACMEHost = "nokiy.net";
+    useACMEHost = "ntfy.nokiy.net";
     forceSSL = true;
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString httpPort}";

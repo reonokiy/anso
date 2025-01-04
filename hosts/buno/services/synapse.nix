@@ -280,7 +280,8 @@ in
   };
 
   services.nginx.virtualHosts."synapse.nokiy.net" = {
-    enableACME = true;
+    enableACME = false;
+    useACMEHost = "synapse.nokiy.net";
     forceSSL = true;
     locations."~ ^(/_matrix|/_synapse/client)" = {
       proxyPass = "http://127.0.0.1:${toString httpPort}";
@@ -295,8 +296,10 @@ in
   };
 
   services.nginx.virtualHosts."element.nokiy.net" = {
-    enableACME = true;
-    root = pkgs.element-web.override {
+    enableACME = false;
+    useACMEHost = "element.nokiy.net";
+    forceSSL = true;
+    locations."/".root = pkgs.element-web.override {
       conf = {
         default_server_config = clientConfig;
         default_server_name = "nokiy.net";
@@ -304,7 +307,8 @@ in
     };
   };
   services.nginx.virtualHosts."nokiy.net" = {
-    enableACME = true;
+    enableACME = false;
+    useACMEHost = "nokiy.net";
     forceSSL = true;
     locations."= /.well-known/matrix/server".extraConfig = mkWellKnown serverConfig;
     locations."= /.well-known/matrix/client".extraConfig = mkWellKnown clientConfig;

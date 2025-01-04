@@ -59,6 +59,8 @@
         ${realIpsFromList cfipv4}
         ${realIpsFromList cfipv6}
         real_ip_header CF-Connecting-IP;
+        proxy_headers_hash_max_size 1024;
+        proxy_headers_hash_bucket_size 128;
       '';
   };
   users.users.nginx.extraGroups = [ "acme" ];
@@ -88,6 +90,18 @@
       "internal.nokiy.net" = {
         domain = "*.internal.nokiy.net";
         extraDomainNames = [ "internal.nokiy.net" ];
+      };
+      "element.nokiy.net" = {
+        domain = "element.nokiy.net";
+      };
+      "synapse.nokiy.net" = {
+        domain = "synapse.nokiy.net";
+      };
+      "ntfy.nokiy.net" = {
+        domain = "ntfy.nokiy.net";
+      };
+      "auth.nokiy.net" = {
+        domain = "auth.nokiy.net";
       };
     };
   };

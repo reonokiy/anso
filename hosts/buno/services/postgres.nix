@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   systemd.tmpfiles.settings."postgres-data" = {
     "/data/postgres/17" = {
@@ -22,7 +22,10 @@
     package = pkgs.postgresql_17;
     enableTCPIP = false;
     dataDir = "/data/postgres/17";
-    ensureDatabases = [ "matrix-synapse" ];
+    ensureDatabases = [
+      "matrix-synapse"
+      "forgejo"
+    ];
     ensureUsers = [
       {
         name = "matrix-synapse";
@@ -33,8 +36,8 @@
   services.postgresqlBackup = {
     enable = true;
     compression = "zstd";
-    databases = [ "matrix-synapse" ];
+    databases = config.services.postgresql.ensureDatabases;
     location = "/data/postgres/backup";
-    startAt = "*-*-* 08:15:00";
+    startAt = "*-*-* 04:30:00 Asia/Shanghai";
   };
 }
