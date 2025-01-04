@@ -16,23 +16,6 @@ let
     add_header Access-Control-Allow-Origin *;
     return 200 '${builtins.toJSON data}';
   '';
-  listenAddrs = [
-    {
-      addr = "100.100.10.2";
-      port = 443;
-      ssl = true;
-    }
-    {
-      addr = machine.interfaces.eth0.ipv4.address;
-      port = 443;
-      ssl = true;
-    }
-    {
-      addr = "[${machine.interfaces.eth0.ipv6.address}]";
-      port = 443;
-      ssl = true;
-    }
-  ];
 in
 {
   sops.secrets."synapse/postgres/password" = { };
@@ -229,19 +212,26 @@ in
 
       max_upload_size: ${maxBodySize}
 
-      ## to enable QR code verification
-      ## https://github.com/matrix-org/synapse/issues/15918#issuecomment-1631439515
-      login_via_existing_session:
+      push:
         enabled: true
-        require_ui_auth: true
-        token_timeout: "1m"
-      modules:
-        - module: matrix_http_rendezvous_synapse.SynapseRendezvousModule
-          config:
-            prefix: /_synapse/client/org.matrix.msc3886/rendezvous
-      experimental_features:
-        msc3886_enabled: true
-        msc3886_endpoint: /_synapse/client/org.matrix.msc3886/rendezvous
+        include_content: false
+        group_unread_count_by_room: true
+        jitter_delay: "3s"
+
+
+      # ## to enable QR code verification
+      # ## https://github.com/matrix-org/synapse/issues/15918#issuecomment-1631439515
+      # login_via_existing_session:
+      #   enabled: true
+      #   require_ui_auth: true
+      #   token_timeout: "1m"
+      # modules:
+      #   - module: matrix_http_rendezvous_synapse.SynapseRendezvousModule
+      #     config:
+      #       prefix: /_synapse/client/org.matrix.msc3886/rendezvous
+      # experimental_features:
+      #   msc3886_enabled: true
+      #   msc3886_endpoint: /_synapse/client/org.matrix.msc3886/rendezvous
     '';
     mode = "0440";
     owner = "matrix-synapse";
@@ -273,8 +263,8 @@ in
     withJemalloc = true;
     plugins = with config.services.matrix-synapse.package.plugins; [
       matrix-synapse-s3-storage-provider
-      matrix-synapse-mjolnir-antispam
-      matrix-http-rendezvous-synapse
+      # matrix-synapse-mjolnir-antispam
+      # matrix-http-rendezvous-synapse
     ];
     extras = [
       "cache-memory" # Provide statistics about caching memory consumption
@@ -292,7 +282,6 @@ in
   services.nginx.virtualHosts."synapse.nokiy.net" = {
     enableACME = true;
     forceSSL = true;
-    listen = listenAddrs;
     locations."~ ^(/_matrix|/_synapse/client)" = {
       proxyPass = "http://127.0.0.1:${toString httpPort}";
       proxyWebsockets = true;
@@ -307,7 +296,6 @@ in
 
   services.nginx.virtualHosts."element.nokiy.net" = {
     enableACME = true;
-    listen = listenAddrs;
     root = pkgs.element-web.override {
       conf = {
         default_server_config = clientConfig;
@@ -318,7 +306,6 @@ in
   services.nginx.virtualHosts."nokiy.net" = {
     enableACME = true;
     forceSSL = true;
-    listen = listenAddrs;
     locations."= /.well-known/matrix/server".extraConfig = mkWellKnown serverConfig;
     locations."= /.well-known/matrix/client".extraConfig = mkWellKnown clientConfig;
   };

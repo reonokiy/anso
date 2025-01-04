@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  machine,
   ...
 }:
 {
@@ -14,6 +15,24 @@
     recommendedGzipSettings = true;
     recommendedBrotliSettings = true;
     recommendedZstdSettings = true;
+
+    defaultListen = [
+      {
+        addr = "100.100.10.2";
+        port = 443;
+        ssl = true;
+      }
+      {
+        addr = machine.interfaces.eth0.ipv4.address;
+        port = 443;
+        ssl = true;
+      }
+      {
+        addr = "[${machine.interfaces.eth0.ipv6.address}]";
+        port = 443;
+        ssl = true;
+      }
+    ];
 
     appendHttpConfig = ''
       add_header X-NOKIY-SERVER "${config.networking.hostName}";
