@@ -103,6 +103,9 @@
       "auth.nokiy.net" = {
         domain = "auth.nokiy.net";
       };
+      "git.nokiy.net" = {
+        domain = "git.nokiy.net";
+      };
     };
   };
 }
