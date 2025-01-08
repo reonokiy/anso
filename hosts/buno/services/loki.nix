@@ -2,7 +2,7 @@
 
 let
   port = 30060;
-  bucketName = "anso-grafana";
+  bucketName = "anso-loki";
   s3Endpoint = "s3.eu-central-003.backblazeb2.com";
 in
 {
@@ -34,18 +34,19 @@ in
         ring:
           kvstore:
             store: inmemory
+        storage:
+          aws:
+            bucketnames: ${bucketName}
+            s3forcepathstyle: true
+            endpoint: https://${s3Endpoint}
+            access_key_id: ${config.sops.placeholder."loki/s3/access_key"}
+            secret_access_key: ${config.sops.placeholder."loki/s3/secret_key"}
 
       storage_config: 
         tsdb_shipper:
           active_index_directory: /tmp/loki/index
           cache_location: /tmp/loki/index_cache
           cache_ttl: 24h
-        aws:
-          bucketnames: ${bucketName}
-          s3forcepathstyle: true
-          endpoint: https://${s3Endpoint}
-          access_key_id: ${config.sops.placeholder."loki/s3/access_key"}
-          secret_access_key: ${config.sops.placeholder."loki/s3/secret_key"}
 
       schema_config:
         configs:
