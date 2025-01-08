@@ -1,3 +1,5 @@
+{ lib, ... }:
+
 {
   time.timeZone = "Europe/Berlin";
   system.stateVersion = "24.11";
@@ -29,6 +31,11 @@
     dates = "weekly";
     options = "--delete-older-than 1w";
   };
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "vault-bin"
+    ];
 
   users.users = {
     root.openssh.authorizedKeys.keys = [

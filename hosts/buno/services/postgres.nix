@@ -25,10 +25,19 @@
     ensureDatabases = [
       "matrix-synapse"
       "forgejo"
+      "grafana"
     ];
     ensureUsers = [
       {
         name = "matrix-synapse";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "forgejo";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "grafana";
         ensureDBOwnership = true;
       }
     ];

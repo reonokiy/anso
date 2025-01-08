@@ -59,7 +59,7 @@ in
         MINIO_SECRET_ACCESS_KEY = config.sops.secrets."forgejo/s3/secret_key".path;
       };
       mailer = {
-        # SMTP_USER = config.sops.secrets."smtp/username".path;
+        USER = config.sops.secrets."smtp/username".path;
         PASSWD = config.sops.secrets."smtp/password".path;
       };
     };
@@ -92,7 +92,7 @@ in
         SMTP_ADDR = "smtp.tem.scw.cloud";
         SMTP_PORT = 587;
         PROTOCOL = "smtp+starttls";
-        USER = "git@noreply.nokiy.net";
+        # USER = "git@noreply.nokiy.net";
         FROM = "\"Nokiy Git\" <git@noreply.nokiy.net>";
       };
       service = {

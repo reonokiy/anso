@@ -106,6 +106,9 @@
       "git.nokiy.net" = {
         domain = "git.nokiy.net";
       };
+      "vault.nokiy.net" = {
+        domain = "vault.nokiy.net";
+      };
     };
   };
 }

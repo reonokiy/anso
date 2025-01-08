@@ -11,8 +11,6 @@ in
 
   sops.secrets."authentik/postgres/password" = { };
   sops.secrets."authentik/secret_key" = { };
-  sops.secrets."smtp/username" = { };
-  sops.secrets."smtp/password" = { };
 
   services.anso.authentik = {
     enable = true;
