@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    rustic-rs
+    rustic
   ];
 
   users.users.rustic = {
@@ -85,5 +85,25 @@
       label = "grafana"
       sources = [ "/data/grafana" ]
     '';
+  };
+
+  systemd.timers."rustic-backup" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 04:50:00 Asia/Shanghai";
+      Persistent = true;
+      Unit = "rustic-backup.service";
+    };
+  };
+
+  systemd.services."rustic-backup" = {
+    script = ''
+      set -eu
+      ${pkgs.rustic}/bin/rustic backup
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+    };
   };
 }
