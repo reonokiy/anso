@@ -8,6 +8,7 @@
     ./loki.nix
     ./ntfy.nix
     ./postgres.nix
+    ./rustic.nix
     ./synapse.nix
     ./vault.nix
   ];
