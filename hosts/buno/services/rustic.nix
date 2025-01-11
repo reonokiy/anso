@@ -66,7 +66,11 @@
 
       [backup.snapshots.hooks]
       run-before = ["systemctl stop postgresql.service"]
-      run-finally = ["systemctl start postgresql.service"]
+      run-finally = [
+        "systemctl start postgresql.service",
+        "systemctl start forgejo.service",
+        "systemctl start matrix-synapse.service"
+      ]
 
       [[backup.snapshots]]
       label = "postgres-backup"
