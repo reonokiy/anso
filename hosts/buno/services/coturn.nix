@@ -47,4 +47,6 @@
     postRun = "systemctl restart coturn.service";
     group = "turnserver";
   };
+
+  networking.hosts."127.0.0.1" = [ "turn.nokiy.net" ];
 }

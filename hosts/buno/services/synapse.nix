@@ -313,4 +313,9 @@ in
     locations."= /.well-known/matrix/server".extraConfig = mkWellKnown serverConfig;
     locations."= /.well-known/matrix/client".extraConfig = mkWellKnown clientConfig;
   };
+
+  networking.hosts."127.0.0.1" = [
+    "element.nokiy.net"
+    "synapse.nokiy.net"
+  ];
 }

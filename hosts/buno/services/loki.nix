@@ -75,4 +75,6 @@ in
     enable = true;
     configFile = config.sops.templates."loki/config.yaml".path;
   };
+
+  networking.hosts."127.0.0.1" = [ "loki.nokiy.net" ];
 }

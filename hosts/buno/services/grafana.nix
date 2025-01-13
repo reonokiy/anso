@@ -90,4 +90,7 @@
       proxyWebsockets = true;
     };
   };
+
+  networking.hosts."127.0.0.1" = [ "grafana.nokiy.net" ];
+  networking.hosts."100.100.10.2" = [ "grafana.internal.nokiy.net" ];
 }

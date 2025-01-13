@@ -18,6 +18,11 @@
 
     defaultListen = [
       {
+        addr = "127.0.0.1";
+        port = 443;
+        ssl = true;
+      }
+      {
         addr = "100.100.10.2";
         port = 443;
         ssl = true;
