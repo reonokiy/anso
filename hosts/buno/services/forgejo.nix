@@ -113,7 +113,10 @@ in
       indexer = {
         REPO_INDEXER_ENABLED = true;
       };
-      git.timeout = 36000;
+      "git.timeout" = {
+        MIGRATE = 6000;
+        MIRROR = 6000;
+      };
     };
   };
 
