@@ -1,0 +1,102 @@
+/*
+  theme-title: Rainbow Light
+  theme-description: A light theme with a rainbow gradient.
+*/
+
+html,
+body {
+    font-family: "Inter Variable", "Source Han Sans SC Variable", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    scrollbar-color: grey var(--bg);
+}
+
+:root {
+    --bg: #fffef8;
+    /* background color */
+    --fg: #000;
+    --br: 0.175rem;
+    /* border radius */
+    --profile-bg: #f9f9f5;
+    --status-bg: var(--profile-bg);
+    --status-info-bg: var(--profile-bg);
+    --status-focus-bg: var(--profile-bg);
+    --status-focus-info-bg: var(--profile-bg);
+    --bg-accent: var(--profile-bg);
+    --role-admin: #2486b9;
+    --fg-accent: #2f90b9;
+    --fg-reduced: transparent;
+    --border-accent: #2f90b9;
+    --gradient: linear-gradient(90deg, rgba(247, 149, 51, 0.101961) 0, rgba(243, 112, 85, 0.101961) 15%, rgba(239, 78, 123, 0.101961) 30%, rgba(161, 102, 171, 0.101961) 44%, rgba(80, 115, 184, 0.101961) 58%, rgba(16, 152, 173, 0.101961) 72%, rgba(7, 179, 155, 0.101961) 86%, rgba(109, 186, 130, 0.101961) 100%);
+}
+
+.page-header>a>img {
+    display: none;
+}
+
+.profile-header {
+    border: 0px solid black;
+    background: var(--gradient) !important;
+}
+
+.profile-header .basic-info .avatar {
+    border: 0px solid black !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(6px) brightness(98%);
+}
+
+.profile-header .basic-info .role {
+    border: none !important;
+    background: transparent !important;
+    backdrop-filter: brightness(95%);
+}
+
+.profile .statuses .rss-icon .fa {
+    color: #fca104;
+}
+
+article.status {
+    border: none;
+    box-shadow: none;
+}
+
+.about-user {
+    background: var(--profile-bg);
+}
+
+nav.backnextlinks {
+    background: var(--profile-bg);
+    width: 100%;
+}
+
+nav.backnextlinks>a {
+    margin: 0.375rem auto;
+}
+
+.status-header .avatar {
+    border: none !important;
+    border-radius: 12px !important;
+}
+
+.page-content>.thread>.col-header {
+    box-shadow: none;
+    border: none;
+    padding: 1.5rem 1rem;
+}
+
+.page-content {
+    margin-bottom: 8rem;
+}
+
+.page-footer {
+    display: none;
+}
+
+.status .status-body pre,
+code {
+    background-color: #edefe8;
+}
+
+blockquote {
+    background-color: #f0efec;
+}

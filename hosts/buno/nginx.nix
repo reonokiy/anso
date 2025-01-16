@@ -41,6 +41,11 @@
 
     appendHttpConfig = ''
       add_header X-NOKIY-SERVER "${config.networking.hostName}";
+
+      # LGTM Stack Tenants
+      map $authentik_groups $lgtm_org_id {
+        "lgtm:anso" "anso";
+      }
     '';
 
     commonHttpConfig =
@@ -113,6 +118,15 @@
       };
       "vault.nokiy.net" = {
         domain = "vault.nokiy.net";
+      };
+      "mimir.nokiy.net" = {
+        domain = "mimir.nokiy.net";
+      };
+      "gts.ree.ink" = {
+        domain = "gts.ree.ink";
+      };
+      "idm.yi0.org" = {
+        domain = "idm.yi0.org";
       };
     };
   };

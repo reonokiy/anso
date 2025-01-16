@@ -13,5 +13,8 @@
     ./rustic.nix
     ./synapse.nix
     ./vault.nix
+
+    ./legacy/gotosocial.nix
+    ./legacy/kanidm.nix
   ];
 }

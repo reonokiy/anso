@@ -148,4 +148,5 @@ in
   };
 
   networking.hosts."127.0.0.1" = [ "git.nokiy.net" ];
+  networking.hosts."100.100.10.2" = [ "git.internal.nokiy.net" ];
 }
