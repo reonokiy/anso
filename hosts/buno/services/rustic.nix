@@ -88,6 +88,22 @@
       [[backup.snapshots]]
       label = "grafana"
       sources = [ "/data/grafana" ]
+
+      [[backup.snapshots]]
+      label = "kanidm"
+      sources = [ "/data/kanidm" ]
+
+      [backup.snapshots.hooks]
+      run-before = ["systemctl stop podman-kanidm.service"]
+      run-finally = ["systemctl start podman-kanidm.service"]
+
+      [[backup.snapshots]]
+      label = "gotosocial"
+      sources = [ "/data/gotosocial" ]
+
+      [backup.snapshots.hooks]
+      run-before = ["systemctl stop podman-gotosocial.service"]
+      run-finally = ["systemctl start podman-gotosocial.service"]
     '';
   };
 
