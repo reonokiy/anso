@@ -37,4 +37,6 @@
   # networking.interfaces.enp7s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
+  nixpkgs.config.allowUnfree = true;
+
 }

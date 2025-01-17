@@ -54,6 +54,21 @@
         };
 
       flake = {
+        nixosConfigurations.aios = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs =
+            let
+              machine = import (inputs.secrets + "/aios.nix");
+            in
+            {
+              inherit inputs machine;
+            };
+          modules = [
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+            ./hosts/aios
+          ];
+        };
         nixosConfigurations.buno = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           specialArgs =
@@ -70,22 +85,15 @@
           ];
         };
 
-        nixosConfigurations.cove = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          specialArgs =
-            let
-              machine = import (inputs.secrets + "/cove.nix");
-            in
-            {
-              inherit inputs machine;
-            };
-          modules = [
-            disko.nixosModules.disko
-            sops-nix.nixosModules.sops
-            ./hosts/cove
-          ];
+        deploy.nodes.aios = {
+          hostname = "aios";
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            autoRollback = false;
+            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.aios;
+          };
         };
-
         deploy.nodes.buno = {
           hostname = "buno";
           profiles.system = {
@@ -93,16 +101,6 @@
             sshUser = "root";
             autoRollback = false;
             path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.buno;
-          };
-        };
-
-        deploy.nodes.cove = {
-          hostname = "cove";
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            autoRollback = false;
-            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.cove;
           };
         };
 
