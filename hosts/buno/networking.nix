@@ -14,12 +14,23 @@
   networking = {
     hostName = "buno";
     enableIPv6 = true;
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = machine.interfaces.eth0.name;
+    };
     usePredictableInterfaceNames = true;
     interfaces.${machine.interfaces.eth0.name}.ipv6 = {
       addresses = [
         {
           address = machine.interfaces.eth0.ipv6.address;
           prefixLength = 64;
+
+        }
+      ];
+      routes = [
+        {
+          address = "fe80::1";
+          prefixLength = 128;
         }
       ];
     };
