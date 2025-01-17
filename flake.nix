@@ -91,7 +91,7 @@
             user = "root";
             sshUser = "root";
             autoRollback = false;
-            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.aios;
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.aios;
           };
         };
         deploy.nodes.buno = {

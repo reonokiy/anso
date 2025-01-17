@@ -12,23 +12,28 @@
   networking = {
     hostName = "aios";
     enableIPv6 = true;
-    useNetworkd = true;
     usePredictableInterfaceNames = true;
+    interfaces.${machine.interfaces.eth0.name}.ipv6 = {
+      addresses = [
+        {
+          address = machine.interfaces.eth0.ipv6.address;
+          prefixLength = 64;
+        }
+      ];
+    };
   };
 
   networking.nat = {
     enable = true;
     externalInterface = machine.interfaces.eth0.name;
     internalInterfaces = [
-      machine.interfaces.eth1.name
+      "podman+"
     ];
   };
 
   networking.firewall.enable = true;
   networking.firewall.trustedInterfaces = [
-    "enso+"
-    "cilium+"
-    "lxc+"
+    "podman+"
   ];
   networking.firewall.interfaces.${machine.interfaces.eth0.name} = {
     allowedTCPPorts = [
