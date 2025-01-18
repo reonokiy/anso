@@ -6,6 +6,7 @@
     ./forgejo.nix
     ./grafana.nix
     ./loki.nix
+    ./mautrix-telegram.nix
     ./mimir.nix
     ./ntfy.nix
     # ./oauth2-proxy.nix

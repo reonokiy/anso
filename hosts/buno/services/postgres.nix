@@ -26,6 +26,7 @@
       "matrix-synapse"
       "forgejo"
       "grafana"
+      "mautrix-telegram"
     ];
     ensureUsers = [
       {
@@ -38,6 +39,10 @@
       }
       {
         name = "grafana";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "mautrix-telegram";
         ensureDBOwnership = true;
       }
     ];
