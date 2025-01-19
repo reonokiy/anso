@@ -24,7 +24,7 @@ in
     owner = "mimir";
     group = "mimir";
     content = ''
-      multitenancy_enabled: true
+      multitenancy_enabled: false
 
       common:
         storage:

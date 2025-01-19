@@ -21,7 +21,7 @@ in
     owner = "loki";
     group = "loki";
     content = ''
-      auth_enabled: true
+      auth_enabled: false
 
       server:
         http_listen_address: 127.0.0.1
@@ -58,6 +58,7 @@ in
               period: 24h
 
       limits_config:
+        volume_enabled: true
         max_query_lookback: 744h
         retention_period: 744h
 
