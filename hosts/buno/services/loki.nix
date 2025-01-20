@@ -108,7 +108,7 @@ in
         proxy_set_header X-authentik-email $authentik_email;
         proxy_set_header X-authentik-name $authentik_name;
         proxy_set_header X-authentik-uid $authentik_uid;
-        proxy_set_header X-Scope-OrgID $lgtm_org_id;
+        # proxy_set_header X-Scope-OrgID $lgtm_org_id;
       '';
     };
     locations."/outpost.goauthentik.io" = {

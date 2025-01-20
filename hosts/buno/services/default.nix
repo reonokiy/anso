@@ -14,6 +14,7 @@
     ./rustic.nix
     ./synapse.nix
     ./vault.nix
+    # ./zitadel.nix
 
     ./legacy/gotosocial.nix
     ./legacy/kanidm.nix

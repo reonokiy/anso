@@ -14,7 +14,7 @@
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
     recommendedBrotliSettings = true;
-    recommendedZstdSettings = true;
+    # recommendedZstdSettings = true; // have bug for grpc proxy
 
     defaultListen = [
       {
@@ -41,11 +41,6 @@
 
     appendHttpConfig = ''
       add_header X-NOKIY-SERVER "${config.networking.hostName}";
-
-      # LGTM Stack Tenants
-      map $authentik_groups $lgtm_org_id {
-        "lgtm:anso" "anso";
-      }
     '';
 
     commonHttpConfig =
@@ -72,6 +67,9 @@
         proxy_headers_hash_max_size 1024;
         proxy_headers_hash_bucket_size 128;
       '';
+    eventsConfig = ''
+      worker_connections  1024;
+    '';
   };
   users.users.nginx.extraGroups = [ "acme" ];
 

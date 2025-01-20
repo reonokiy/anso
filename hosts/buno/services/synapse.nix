@@ -21,6 +21,8 @@ in
   sops.secrets."synapse/postgres/password" = { };
   sops.secrets."synapse/oidc/client_id" = { };
   sops.secrets."synapse/oidc/client_secret" = { };
+  sops.secrets."synapse/sso/client_id" = { };
+  sops.secrets."synapse/sso/client_secret" = { };
   sops.secrets."synapse/s3/access_key" = { };
   sops.secrets."synapse/s3/secret_key" = { };
   sops.secrets."synapse/turn/secret" = {
