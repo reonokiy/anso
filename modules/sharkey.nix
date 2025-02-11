@@ -60,7 +60,7 @@ in
     server = {
       image = mkOption {
         type = types.str;
-        default = "registry.activitypub.software/transfem-org/sharkey:2024.11.1";
+        default = "registry.activitypub.software/transfem-org/sharkey:2024.11.2";
       };
       port = mkOption {
         type = types.int;
