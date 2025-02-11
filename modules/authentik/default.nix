@@ -49,7 +49,7 @@ in
     server = {
       image = mkOption {
         type = types.str;
-        default = "ghcr.io/goauthentik/server:2024.12.1";
+        default = "ghcr.io/goauthentik/server:2024.12.3";
       };
       env = mkOption {
         type = types.str;
