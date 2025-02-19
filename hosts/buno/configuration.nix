@@ -21,11 +21,8 @@
     };
   };
 
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "vault-bin"
-    ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [ "vault-bin" ];
 
   users.users = {
     root.openssh.authorizedKeys.keys = [
