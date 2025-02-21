@@ -1,9 +1,7 @@
 { config, ... }:
 
-let
-  httpPort = 30040;
-in
-{
+let httpPort = 30040;
+in {
   sops.secrets."forgejo/s3/access_key" = { };
   sops.secrets."forgejo/s3/secret_key" = { };
   # sops.secrets."forgejo/postgres/password" = { };
@@ -56,7 +54,8 @@ in
     secrets = {
       storage = {
         MINIO_ACCESS_KEY_ID = config.sops.secrets."forgejo/s3/access_key".path;
-        MINIO_SECRET_ACCESS_KEY = config.sops.secrets."forgejo/s3/secret_key".path;
+        MINIO_SECRET_ACCESS_KEY =
+          config.sops.secrets."forgejo/s3/secret_key".path;
       };
       mailer = {
         USER = config.sops.secrets."smtp/username".path;
@@ -93,7 +92,7 @@ in
         SMTP_PORT = 587;
         PROTOCOL = "smtp+starttls";
         # USER = "git@noreply.nokiy.net";
-        FROM = "\"Nokiy Git\" <git@noreply.nokiy.net>";
+        FROM = ''"Nokiy Git" <git@noreply.nokiy.net>'';
       };
       service = {
         ALLOW_ONLY_EXTERNAL_REGISTRATION = true;
@@ -110,9 +109,7 @@ in
         ENABLE_OPENID_SIGNIN = false;
         ENABLE_OPENID_SIGNUP = false;
       };
-      indexer = {
-        REPO_INDEXER_ENABLED = true;
-      };
+      indexer = { REPO_INDEXER_ENABLED = true; };
       "git.timeout" = {
         MIGRATE = 6000;
         MIRROR = 6000;
@@ -124,16 +121,15 @@ in
     enableACME = false;
     useACMEHost = "internal.nokiy.net";
     forceSSL = true;
-    listen = [
-      {
-        addr = "100.100.10.2";
-        port = 443;
-        ssl = true;
-      }
-    ];
+    listen = [{
+      addr = "100.100.10.2";
+      port = 443;
+      ssl = true;
+    }];
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString httpPort}";
       proxyWebsockets = true;
+
     };
   };
 
@@ -144,6 +140,10 @@ in
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString httpPort}";
       proxyWebsockets = true;
+      extraConfig = ''
+        proxy_set_header Authorization $http_authorization;
+        proxy_pass_header Authorization;
+      '';
     };
   };
 
