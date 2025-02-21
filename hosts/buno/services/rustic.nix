@@ -1,9 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    rustic
-  ];
+  environment.systemPackages = with pkgs; [ rustic ];
 
   users.users.rustic = {
     isSystemUser = true;
@@ -29,16 +27,18 @@
       password-file = "${config.sops.secrets."rustic/password".path}"
 
       [repository.options]
-      application_key_id = "${config.sops.placeholder."rustic/b2/application_key_id"}"
+      application_key_id = "${
+        config.sops.placeholder."rustic/b2/application_key_id"
+      }"
       application_key = "${config.sops.placeholder."rustic/b2/application_key"}"
       bucket = "anso-rustic-backup"
       bucket_id = "fd8154d2b8b85a4b914d0312"
       root = "/"
 
       [forget]
-      keep-daily = 30
-      keep-weekly = 8
-      keep-monthly = 12
+      keep-daily = 7
+      keep-weekly = 2
+      keep-monthly = 6
       keep-yearly = 3
 
       [backup]
