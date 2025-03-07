@@ -14,55 +14,33 @@
       url = "git+ssh://git@github.com/reonokiy/anso-secrets.git?ref=main";
       flake = false;
     };
+    nocodb.url = "github:nocodb/nocodb";
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      flake-parts,
-      deploy-rs,
-      disko,
-      sops-nix,
-      nixos-anywhere,
-      ...
-    }@inputs:
+  outputs = { self, nixpkgs, flake-parts, deploy-rs, disko, sops-nix
+    , nixos-anywhere, nocodb, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
-        "aarch64-linux"
-        "x86_64-linux"
-      ];
+      systems = [ "aarch64-linux" "x86_64-linux" ];
 
-      perSystem =
-        {
-          pkgs,
-          system,
-          ...
-        }:
-        {
-          devShells.default = pkgs.mkShell {
-            name = "default";
-            packages = [
-              pkgs.just
-              pkgs.python3
-              pkgs.openssh
-              pkgs.wireguard-tools
-              nixos-anywhere.packages.${system}.default
-              deploy-rs.packages.${system}.default
-            ];
-          };
+      perSystem = { pkgs, system, ... }: {
+        devShells.default = pkgs.mkShell {
+          name = "default";
+          packages = [
+            pkgs.just
+            pkgs.python3
+            pkgs.openssh
+            pkgs.wireguard-tools
+            nixos-anywhere.packages.${system}.default
+            deploy-rs.packages.${system}.default
+          ];
         };
+      };
 
       flake = {
         nixosConfigurations.aios = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs =
-            let
-              machine = import (inputs.secrets + "/aios.nix");
-            in
-            {
-              inherit inputs machine;
-            };
+          specialArgs = let machine = import (inputs.secrets + "/aios.nix");
+          in { inherit inputs machine; };
           modules = [
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
@@ -71,16 +49,12 @@
         };
         nixosConfigurations.buno = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          specialArgs =
-            let
-              machine = import (inputs.secrets + "/buno.nix");
-            in
-            {
-              inherit inputs machine;
-            };
+          specialArgs = let machine = import (inputs.secrets + "/buno.nix");
+          in { inherit inputs machine; };
           modules = [
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
+            nocodb.nixosModules.nocodb
             ./hosts/buno
           ];
         };
@@ -91,7 +65,8 @@
             user = "root";
             sshUser = "root";
             autoRollback = false;
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.aios;
+            path = deploy-rs.lib.x86_64-linux.activate.nixos
+              self.nixosConfigurations.aios;
           };
         };
         deploy.nodes.buno = {
@@ -100,11 +75,13 @@
             user = "root";
             sshUser = "root";
             autoRollback = false;
-            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.buno;
+            path = deploy-rs.lib.aarch64-linux.activate.nixos
+              self.nixosConfigurations.buno;
           };
         };
 
-        checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+        checks = builtins.mapAttrs
+          (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       };
     };
 }

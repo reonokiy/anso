@@ -255,6 +255,40 @@
         "type": "github"
       }
     },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1737469691,
+        "narHash": "sha256-nmKOgAU48S41dTPIXAq0AHZSehWUn6ZPrUKijHAMmIk=",
+        "owner": "NixOs",
+        "repo": "nixpkgs",
+        "rev": "9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOs",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nocodb": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_5"
+      },
+      "locked": {
+        "lastModified": 1741349238,
+        "narHash": "sha256-Z9cZKYFqRi1QvBb6e7xu2g4IdSZmxr02EPLzP6EG4Vo=",
+        "owner": "nocodb",
+        "repo": "nocodb",
+        "rev": "1de0d53f879cc9eec0c1fd0ff62385b248dc9fde",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nocodb",
+        "repo": "nocodb",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "deploy-rs": "deploy-rs",
@@ -262,6 +296,7 @@
         "flake-parts": "flake-parts",
         "nixos-anywhere": "nixos-anywhere",
         "nixpkgs": "nixpkgs_4",
+        "nocodb": "nocodb",
         "secrets": "secrets",
         "sops-nix": "sops-nix"
       }
@@ -269,11 +304,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1740211851,
-        "narHash": "sha256-ujhXqnr0pMZDZmPjXxZdiGIWAYfLjP0z5fY7wvGTiAA=",
+        "lastModified": 1741351757,
+        "narHash": "sha256-hZEQAWSgEepd13oI3eIz1qDErrLfoRyZ2oduH+BndZg=",
         "ref": "main",
-        "rev": "f7b62c40998328bd3c824f51c3299194e8a046d5",
-        "revCount": 66,
+        "rev": "0cc9a6d2773a24a9bad4a49705052feffa9c6259",
+        "revCount": 67,
         "type": "git",
         "url": "ssh://git@github.com/reonokiy/anso-secrets.git"
       },
