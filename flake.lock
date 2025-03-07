@@ -269,11 +269,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1737447256,
-        "narHash": "sha256-vhaMJ/gxRLGcmRNl/hziZ7yx4OUb9inZ2u7W3JGJNFo=",
+        "lastModified": 1740211851,
+        "narHash": "sha256-ujhXqnr0pMZDZmPjXxZdiGIWAYfLjP0z5fY7wvGTiAA=",
         "ref": "main",
-        "rev": "c60302938d817dcf6feeda16bc02635dd1581945",
-        "revCount": 64,
+        "rev": "f7b62c40998328bd3c824f51c3299194e8a046d5",
+        "revCount": 66,
         "type": "git",
         "url": "ssh://git@github.com/reonokiy/anso-secrets.git"
       },

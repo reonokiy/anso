@@ -1,3 +1,5 @@
+{ pkgs, ... }:
+
 {
   system.stateVersion = "24.11";
   time.timeZone = "Europe/Berlin";
@@ -38,4 +40,6 @@
       };
     };
   };
+
+  environment.systemPackages = with pkgs; [ kubectl helm ];
 }
