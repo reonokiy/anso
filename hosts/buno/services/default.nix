@@ -1,7 +1,7 @@
 {
   imports = [
     ./alloy.nix
-    ./authentik.nix
+    # ./authentik.nix
     ./coturn.nix
     ./forgejo.nix
     ./grafana.nix
