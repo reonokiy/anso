@@ -36,10 +36,10 @@
       root = "/"
 
       [forget]
-      keep-daily = 7
-      keep-weekly = 2
-      keep-monthly = 6
-      keep-yearly = 3
+      keep-daily = 3
+      keep-weekly = 1
+      keep-monthly = 1
+      keep-yearly = 1
 
       [backup]
       host = "buno"
