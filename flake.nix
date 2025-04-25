@@ -49,6 +49,7 @@
               pkgs.python3
               pkgs.openssh
               pkgs.nil
+              pkgs.nixfmt-rfc-style
               pkgs.wireguard-tools
               nixos-anywhere.packages.${system}.default
               deploy-rs.packages.${system}.default
