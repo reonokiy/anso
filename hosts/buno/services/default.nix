@@ -8,7 +8,7 @@
     ./loki.nix
     ./mautrix-telegram.nix
     ./mimir.nix
-    ./nocodb.nix
+    # ./nocodb.nix
     ./ntfy.nix
     # ./oauth2-proxy.nix
     ./postgres.nix

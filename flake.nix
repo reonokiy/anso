@@ -86,24 +86,24 @@
             ./hosts/buno
           ];
         };
-        nixosConfigurations.deco = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          specialArgs =
-            let
-              machine = import (inputs.secrets + "/deco.nix");
-            in
-            {
-              inherit inputs machine;
-            };
-          modules = [
-            disko.nixosModules.disko
-            sops-nix.nixosModules.sops
-            ./hosts/deco
-          ];
-        };
+        # nixosConfigurations.deco = nixpkgs.lib.nixosSystem {
+        #   system = "aarch64-linux";
+        #   specialArgs =
+        #     let
+        #       machine = import (inputs.secrets + "/deco.nix");
+        #     in
+        #     {
+        #       inherit inputs machine;
+        #     };
+        #   modules = [
+        #     disko.nixosModules.disko
+        #     sops-nix.nixosModules.sops
+        #     ./hosts/deco
+        #   ];
+        # };
 
         deploy.nodes.aios = {
-          hostname = "aios";
+          hostname = "100.100.10.1";
           profiles.system = {
             user = "root";
             sshUser = "root";
@@ -112,7 +112,7 @@
           };
         };
         deploy.nodes.buno = {
-          hostname = "buno";
+          hostname = "100.100.10.2";
           profiles.system = {
             user = "root";
             sshUser = "root";
@@ -120,15 +120,15 @@
             path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.buno;
           };
         };
-        deploy.nodes.deco = {
-          hostname = "deco";
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            autoRollback = false;
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.buno;
-          };
-        };
+        # deploy.nodes.deco = {
+        #   hostname = "deco";
+        #   profiles.system = {
+        #     user = "root";
+        #     sshUser = "root";
+        #     autoRollback = false;
+        #     path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.buno;
+        #   };
+        # };
 
         checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       };
