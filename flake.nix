@@ -18,7 +18,6 @@
       url = "git+ssh://git@github.com/reonokiy/anso-secrets.git?ref=main";
       flake = false;
     };
-    nocodb.url = "github:nocodb/nocodb";
   };
 
   outputs =
@@ -30,7 +29,6 @@
       disko,
       sops-nix,
       nixos-anywhere,
-      nocodb,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -85,7 +83,6 @@
           modules = [
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
-            nocodb.nixosModules.nocodb
             ./hosts/buno
           ];
         };
