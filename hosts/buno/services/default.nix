@@ -12,6 +12,7 @@
     ./ntfy.nix
     # ./oauth2-proxy.nix
     ./postgres.nix
+    ./pocket-id.nix
     ./rustic.nix
     ./synapse.nix
     ./vault.nix

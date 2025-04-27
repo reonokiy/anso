@@ -2,6 +2,7 @@
   description = "anso";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixos-anywhere.url = "github:nix-community/nixos-anywhere";
     deploy-rs.url = "github:serokell/deploy-rs";
@@ -24,6 +25,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       flake-parts,
       deploy-rs,
       disko,
@@ -79,6 +81,10 @@
             in
             {
               inherit inputs machine;
+              pkgs-unstable = import nixpkgs-unstable {
+                system = "aarch64-linux";
+                config.allowUnfree = true;
+              };
             };
           modules = [
             disko.nixosModules.disko

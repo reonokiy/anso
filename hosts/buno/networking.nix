@@ -38,10 +38,12 @@
 
   networking.nat = {
     enable = true;
+    enableIPv6 = true;
     externalInterface = machine.interfaces.eth0.name;
     internalInterfaces = [
       machine.interfaces.eth1.name
       "podman+"
+      "ve-+" # NixOS Containers
     ];
   };
 
