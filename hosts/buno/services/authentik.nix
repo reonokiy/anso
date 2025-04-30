@@ -57,7 +57,4 @@ in
       proxyWebsockets = true;
     };
   };
-
-  networking.hosts."127.0.0.1" = [ "auth.nokiy.net" ];
-  networking.hosts."100.100.10.2" = [ "auth.internal.nokiy.net" ];
 }

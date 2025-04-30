@@ -18,22 +18,7 @@
 
     defaultListen = [
       {
-        addr = "127.0.0.1";
-        port = 443;
-        ssl = true;
-      }
-      {
-        addr = "100.100.10.1";
-        port = 443;
-        ssl = true;
-      }
-      {
-        addr = machine.interfaces.eth0.ipv4.address;
-        port = 443;
-        ssl = true;
-      }
-      {
-        addr = "[${machine.interfaces.eth0.ipv6.address}]";
+        addr = "0.0.0.0";
         port = 443;
         ssl = true;
       }
