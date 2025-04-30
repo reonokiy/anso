@@ -14,6 +14,7 @@
     ./postgres.nix
     # ./pocket-id.nix
     ./rustic.nix
+    ./social-nokiy-net.nix
     ./synapse.nix
     ./vault.nix
     # ./zitadel.nix
