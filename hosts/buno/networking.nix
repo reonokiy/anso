@@ -50,6 +50,7 @@
   networking.firewall.enable = true;
   networking.firewall.trustedInterfaces = [
     "podman+"
+    "ve-+" # NixOS Containers
   ];
   networking.firewall.interfaces."${machine.interfaces.eth0.name}" =
     let
