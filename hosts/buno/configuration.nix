@@ -50,4 +50,8 @@
     enable = true;
     image = "ghcr.io/elk-zone/elk:v0.16.0";
   };
+
+  services.anso.affine-nokiy-net = {
+    enable = true;
+  };
 }

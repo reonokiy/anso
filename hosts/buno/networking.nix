@@ -48,6 +48,10 @@
   };
 
   networking.firewall.enable = true;
+  networking.firewall.interfaces."podman+".allowedUDPPorts = [
+    53
+    5353
+  ];
   networking.firewall.trustedInterfaces = [
     "podman+"
     "ve-+" # NixOS Containers
