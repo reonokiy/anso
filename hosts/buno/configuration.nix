@@ -42,4 +42,12 @@
       };
     };
   };
+  
+  imports = [
+    ../../modules/cloud-nokiy-net.nix
+  ];
+
+  services.anso.cloud-nokiy-net = {
+    enable = true;
+  };
 }

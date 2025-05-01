@@ -37,7 +37,7 @@ in
     systemd.tmpfiles.settings."social-nokiy-net" = {
       "/data/social-nokiy-net" = {
         d = {
-          mode = "0770";
+          mode = "0771";
           user = "service";
           group = "service";
         };
@@ -61,10 +61,10 @@ in
     containers.social-nokiy-net = {
       autoStart = true;
       privateNetwork = true;
-      hostAddress = "10.0.0.10";
-      localAddress = "10.0.0.11";
-      hostAddress6 = "fd00::10";
-      localAddress6 = "fd00::11";
+      hostAddress = "10.42.0.3";
+      localAddress = "10.43.0.3";
+      hostAddress6 = "fd00::10.42.0.3";
+      localAddress6 = "fd00::10.43.0.3";
       bindMounts = {
         "social-nokiy-net.env" = {
           hostPath = config.sops.templates."social-nokiy-net.env".path;
