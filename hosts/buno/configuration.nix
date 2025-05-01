@@ -21,8 +21,7 @@
     };
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "vault-bin" ];
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vault-bin" ];
 
   users.users = {
     root.openssh.authorizedKeys.keys = [
@@ -42,12 +41,8 @@
       };
     };
   };
-  
+
   imports = [
     ../../modules/cloud-nokiy-net.nix
   ];
-
-  services.anso.cloud-nokiy-net = {
-    enable = true;
-  };
 }
