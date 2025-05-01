@@ -43,7 +43,7 @@ in
         };
       };
     };
-    
+
     security.acme.certs."social.nokiy.net" = {
       domain = "social.nokiy.net";
     };
@@ -77,50 +77,61 @@ in
           isReadOnly = false;
         };
       };
-      config = {lib, ...}: {
-        system.stateVersion = "24.11";
-        networking.useHostResolvConf = true;
-        networking.firewall = {
-          enable = true;
-          allowedTCPPorts = [ 80 ];
-          allowedUDPPorts = [ 80 ];
-        };
+      config =
+        { lib, ... }:
+        {
+          system.stateVersion = "24.11";
+          networking.useHostResolvConf = true;
+          networking.firewall = {
+            enable = true;
+            allowedTCPPorts = [ 80 ];
+            allowedUDPPorts = [ 80 ];
+          };
 
-        users.users.gotosocial = {
-          uid = lib.mkForce 10000;
-          group = "gotosocial";
-        };
+          users.users.gotosocial = {
+            uid = lib.mkForce 10000;
+            group = "gotosocial";
+          };
 
-        users.groups.gotosocial ={
-          gid = lib.mkForce 10000;
-        };
+          users.groups.gotosocial = {
+            gid = lib.mkForce 10000;
+          };
 
-        services.gotosocial = {
-          enable = true;
-          openFirewall = true;
-          setupPostgresqlDB = false;
-          environmentFile = "/tmp/secrets/social-nokiy-net.env";
-          settings = {
-            host = "social.nokiy.net";
-            port = 80;
-            bind-address = "0.0.0.0";
-            trusted-proxies = [ "10.0.0.10" "10.0.0.11" "fd00::10" "fd00::11" ];
-            instance-languages = [ "zh-Hans-CN" "en"];
-            accounts-allow-custom-css = true;
-            db-address = "/data/sqlite.db";
-            storage-backend = "s3";
-            storage-s3-endpoint = "s3.eu-central-003.backblazeb2.com";
-            storage-s3-bucket = "social-nokiy-net";
-            storage-s3-proxy = true;
-            oidc-enabled = true;
-            oidc-idp-name = "Nokiy Auth";
-            oidc-issuer = "https://auth.nokiy.net/application/o/gotosocial/";
-            oidc-link-existing = true;
-            oidc-allowed-groups = [ "gotosocial-admin" "gotosocial-user" ];
-            oidc-admin-groups = [ "gotosocial-admin" ];
+          services.gotosocial = {
+            enable = true;
+            openFirewall = true;
+            setupPostgresqlDB = false;
+            environmentFile = "/tmp/secrets/social-nokiy-net.env";
+            settings = {
+              host = "social.nokiy.net";
+              port = 80;
+              bind-address = "0.0.0.0";
+              trusted-proxies = [
+                "10.42.0.3"
+                "fd00::10.42.0.3"
+              ];
+              instance-languages = [
+                "zh-Hans-CN"
+                "en"
+              ];
+              accounts-allow-custom-css = true;
+              db-address = "/data/sqlite.db";
+              storage-backend = "s3";
+              storage-s3-endpoint = "s3.eu-central-003.backblazeb2.com";
+              storage-s3-bucket = "social-nokiy-net";
+              storage-s3-proxy = true;
+              oidc-enabled = true;
+              oidc-idp-name = "Nokiy Auth";
+              oidc-issuer = "https://auth.nokiy.net/application/o/gotosocial/";
+              oidc-link-existing = true;
+              oidc-allowed-groups = [
+                "gotosocial-admin"
+                "gotosocial-user"
+              ];
+              oidc-admin-groups = [ "gotosocial-admin" ];
+            };
           };
         };
-      };
     };
   };
 }

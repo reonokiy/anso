@@ -1,6 +1,10 @@
 { lib, ... }:
 
 {
+  imports = [
+    ../../modules
+  ];
+
   time.timeZone = "Europe/Berlin";
   system.stateVersion = "24.11";
   boot.loader.systemd-boot.enable = true;
@@ -42,7 +46,8 @@
     };
   };
 
-  imports = [
-    ../../modules/cloud-nokiy-net.nix
-  ];
+  services.anso.elk-nokiy-net = {
+    enable = true;
+    image = "ghcr.io/elk-zone/elk:v0.16.0";
+  };
 }
