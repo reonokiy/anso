@@ -101,7 +101,6 @@ in
           setupPostgresqlDB = false;
           environmentFile = "/tmp/secrets/social-nokiy-net.env";
           settings = {
-            application-name = "social.nokiy.net";
             host = "social.nokiy.net";
             port = 80;
             bind-address = "0.0.0.0";
