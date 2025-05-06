@@ -54,4 +54,8 @@
   services.anso.affine-nokiy-net = {
     enable = true;
   };
+
+  services.anso.netbird-nokiy-net = {
+    enable = true;
+  };
 }
