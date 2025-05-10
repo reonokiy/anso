@@ -56,6 +56,10 @@
   };
 
   services.anso.netbird-nokiy-net = {
+    enable = false;
+  };
+
+  services.anso.supabase-nokiy-net = {
     enable = true;
   };
 }
