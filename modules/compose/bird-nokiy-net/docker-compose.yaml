@@ -8,15 +8,15 @@ services:
       NETBIRD_MGMT_API_ENDPOINT: https://bird.nokiy.net
       NETBIRD_MGMT_GRPC_API_ENDPOINT: https://bird.nokiy.net
       # OIDC
-      AUTH_AUDIENCE: management
+      AUTH_AUDIENCE: netbird
       AUTH_CLIENT_ID: netbird
       # AUTH_CLIENT_SECRET: netbird
-      AUTH_AUTHORITY: https://bird.nokiy.net
+      AUTH_AUTHORITY: https://auth.nokiy.net/application/o/netbird/
       USE_AUTH0: false
-      AUTH_SUPPORTED_SCOPES: "openid profile email"
-      NETBIRD_TOKEN_SOURCE: "oidc"
-      AUTH_REDIRECT_URI: /nb-auth
-      AUTH_SILENT_REDIRECT_URI: /nb-silent-auth
+      AUTH_SUPPORTED_SCOPES: "openid profile email offline_access api"
+      NETBIRD_TOKEN_SOURCE: "accessToken"
+      AUTH_REDIRECT_URI: /peers
+      AUTH_SILENT_REDIRECT_URI: /add-peer
       # SSL
       NGINX_SSL_PORT: 443
       # Letsencrypt
@@ -65,7 +65,7 @@ services:
     volumes:
       - ${DATA_DIR}/management:/var/lib/netbird
       - ${DATA_DIR}/management.json:/etc/netbird/management.json
-    command: [ "--port", "80", "--log-file", "console", "--log-level", "info", "--disable-anonymous-metrics=true", "--single-account-mode-domain=netbird.selfhosted", "--dns-domain=netbird.selfhosted", "--idp-sign-key-refresh-enabled" ]
+    command: [ "--port", "80", "--log-file", "console", "--log-level", "info", "--disable-anonymous-metrics=true", "--single-account-mode-domain=reolan.net", "--dns-domain=reolan.net", "--idp-sign-key-refresh-enabled" ]
     logging:
       driver: "json-file"
       options:

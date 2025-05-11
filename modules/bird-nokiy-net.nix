@@ -30,14 +30,18 @@ in
       useACMEHost = "bird.nokiy.net";
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://${config.containers.bird-nokiy-net.localAddress}:80";
+        proxyPass = "http://${config.containers.bird-nokiy-net.localAddress}:8080";
         proxyWebsockets = true;
       };
       locations."/api" = {
-        proxyPass = "http://${config.containers.bird-nokiy-net.localAddress}:8011";
+        proxyPass = "http://${config.containers.bird-nokiy-net.localAddress}:8083";
         proxyWebsockets = true;
       };
-      locations."/management.ManagementService" = {
+      locations."/relay" = {
+        proxyPass = "http://${config.containers.bird-nokiy-net.localAddress}:8082";
+        proxyWebsockets = true;
+      };
+      locations."/management.ManagementService/" = {
         extraConfig = ''
           # This is necessary so that grpc connections do not get closed early
           # see https://stackoverflow.com/a/67805465
@@ -45,7 +49,7 @@ in
 
           grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          grpc_pass grpc://${config.containers.bird-nokiy-net.localAddress}:8011;
+          grpc_pass grpc://${config.containers.bird-nokiy-net.localAddress}:8083;
           grpc_read_timeout 1d;
           grpc_send_timeout 1d;
           grpc_socket_keepalive on;
@@ -58,7 +62,7 @@ in
 
         grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-        grpc_pass grpc://${config.containers.bird-nokiy-net.localAddress}:8012;
+        grpc_pass grpc://${config.containers.bird-nokiy-net.localAddress}:8081;
         grpc_read_timeout 1d;
         grpc_send_timeout 1d;
         grpc_socket_keepalive on;
@@ -68,6 +72,9 @@ in
     containers.bird-nokiy-net = {
       autoStart = true;
       privateNetwork = true;
+      tmpfs = [
+        "/var"
+      ];
       hostAddress = "10.42.0.4";
       localAddress = "10.43.0.4";
       hostAddress6 = "fd00::10.42.0.4";
@@ -119,6 +126,7 @@ in
             docker-compose
           ];
           environment.etc."bird-nokiy-net/docker-compose.yaml".text = docker-compose-file;
+          boot.tmp.cleanOnBoot = true;
 
           systemd.services."bird-nokiy-net" = {
             wantedBy = [ "multi-user.target" ];
