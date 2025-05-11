@@ -79,6 +79,7 @@ in
           isReadOnly = false;
         };
       };
+      ephemeral = true;
       extraFlags = [
         "--system-call-filter=@keyring"
         "--system-call-filter=bpf"
@@ -128,11 +129,10 @@ in
             environment = {
               DATA_DIR = "/data";
             };
+            script = "${pkgs.docker-compose}/bin/docker-compose -f /etc/bird-nokiy-net/docker-compose.yaml up";
             serviceConfig = {
-              Type = "oneshot";
-              RemainAfterExit = true;
-              ExecStart = "${pkgs.docker-compose}/bin/docker-compose -f /etc/bird-nokiy-net/docker-compose.yaml up -d";
-              ExecStop = "${pkgs.docker-compose}/bin/docker-compose -f /etc/bird-nokiy-net/docker-compose.yaml down";
+              Restart = "always";
+              RestartSec = "30s";
               EnvironmentFile = [
                 "/data/.env"
               ];

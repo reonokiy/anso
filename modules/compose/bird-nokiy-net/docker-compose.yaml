@@ -65,7 +65,7 @@ services:
     volumes:
       - ${DATA_DIR}/management:/var/lib/netbird
       - ${DATA_DIR}/management.json:/etc/netbird/management.json
-    command: [ "--port", "80", "--log-file", "console", "--log-level", "info", "--disable-anonymous-metrics=false", "--single-account-mode-domain=netbird.selfhosted", "--dns-domain=netbird.selfhosted", "--idp-sign-key-refresh-enabled" ]
+    command: [ "--port", "80", "--log-file", "console", "--log-level", "info", "--disable-anonymous-metrics=true", "--single-account-mode-domain=netbird.selfhosted", "--dns-domain=netbird.selfhosted", "--idp-sign-key-refresh-enabled" ]
     logging:
       driver: "json-file"
       options:
