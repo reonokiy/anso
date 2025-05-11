@@ -55,11 +55,11 @@
     enable = true;
   };
 
-  services.anso.netbird-nokiy-net = {
-    enable = false;
+  services.anso.bird-nokiy-net = {
+    enable = true;
   };
 
   services.anso.supabase-nokiy-net = {
-    enable = true;
+    enable = false;
   };
 }

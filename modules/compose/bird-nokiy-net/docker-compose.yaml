@@ -1,0 +1,76 @@
+services:
+  dashboard:
+    image: netbirdio/dashboard:v2.12.0
+    restart: unless-stopped
+    networks: [ netbird ]
+    environment:
+      # Endpoints
+      NETBIRD_MGMT_API_ENDPOINT: https://bird.nokiy.net
+      NETBIRD_MGMT_GRPC_API_ENDPOINT: https://bird.nokiy.net
+      # OIDC
+      AUTH_AUDIENCE: management
+      AUTH_CLIENT_ID: netbird
+      # AUTH_CLIENT_SECRET: netbird
+      AUTH_AUTHORITY: https://bird.nokiy.net
+      USE_AUTH0: false
+      AUTH_SUPPORTED_SCOPES: "openid profile email"
+      NETBIRD_TOKEN_SOURCE: "oidc"
+      AUTH_REDIRECT_URI: /nb-auth
+      AUTH_SILENT_REDIRECT_URI: /nb-silent-auth
+      # SSL
+      NGINX_SSL_PORT: 443
+      # Letsencrypt
+      LETSENCRYPT_DOMAIN: none
+
+    ports:
+      - 8080:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+  signal:
+    image: netbirdio/signal:0.43.3
+    restart: unless-stopped
+    networks: [ netbird ]
+    ports:
+      - 8081:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+  relay:
+    image: netbirdio/relay:0.43.3
+    restart: unless-stopped
+    networks: [ netbird ]
+    environment:
+      NB_LOG_LEVEL: info
+      NB_LISTEN_ADDRESS: ":80"
+      NB_EXPOSED_ADDRESS: rels://bird.nokiy.net:443
+      NB_AUTH_SECRET: ${NETBIRD_AUTH_SECRET}
+    ports:
+      - 8082:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+  management:
+    image: netbirdio/management:0.43.3
+    restart: unless-stopped
+    networks: [ netbird ]
+    ports:
+      - 8083:80
+    volumes:
+      - ${DATA_DIR}/management:/var/lib/netbird
+      - ${DATA_DIR}/management.json:/etc/netbird/management.json
+    command: [ "--port", "80", "--log-file", "console", "--log-level", "info", "--disable-anonymous-metrics=false", "--single-account-mode-domain=netbird.selfhosted", "--dns-domain=netbird.selfhosted", "--idp-sign-key-refresh-enabled" ]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+
+networks:
+  netbird:
