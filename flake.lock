@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "compose": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1747043640,
+        "narHash": "sha256-OND77CQhXWxfbWL6UcfSSu0EGbNnrNQSsWsZNbKdC2c=",
+        "owner": "reonokiy",
+        "repo": "compose",
+        "rev": "618ffce8a2027d84388dded99e75f5829caa3720",
+        "type": "github"
+      },
+      "original": {
+        "owner": "reonokiy",
+        "ref": "main",
+        "repo": "compose",
+        "type": "github"
+      }
+    },
     "deploy-rs": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -312,6 +329,7 @@
     },
     "root": {
       "inputs": {
+        "compose": "compose",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "flake-parts": "flake-parts",

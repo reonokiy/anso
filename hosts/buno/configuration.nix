@@ -62,4 +62,8 @@
   services.anso.supabase-nokiy-net = {
     enable = false;
   };
+
+  services.anso.perverse-social-nokiy-net = {
+    enable = true;
+  };
 }

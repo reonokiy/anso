@@ -19,6 +19,10 @@
       url = "git+ssh://git@github.com/reonokiy/anso-secrets.git?ref=main";
       flake = false;
     };
+    compose = {
+      url = "github:reonokiy/compose?ref=main";
+      flake = false;
+    };
   };
 
   outputs =
