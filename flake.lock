@@ -313,11 +313,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1745921652,
-        "narHash": "sha256-hEAvEN+y/OQ7wA7+u3bFJwXSe8yoSf2QaOMH3hyTJTQ=",
+        "lastModified": 1746957726,
+        "narHash": "sha256-k9ut1LSfHCr0AW82ttEQzXVCqmyWVA5+SHJkS5ID/Jo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "b000159bba69b0106a42f65e52dbf27f77aca9d3",
+        "rev": "a39ed32a651fdee6842ec930761e31d1f242cb94",
         "type": "github"
       },
       "original": {
@@ -344,11 +344,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1746071761,
-        "narHash": "sha256-R6m/au7Jyl9JUE/Z4e4uQZ4x/PXkAS8MYCebEGEhVmI=",
+        "lastModified": 1747069895,
+        "narHash": "sha256-pazQx0F1AHfqdKjGySUk2YYe3DnmQ8FA2zwyk3e9jU8=",
         "ref": "main",
-        "rev": "dded69bb0d8be39a7e19db33db94853b749e5416",
-        "revCount": 72,
+        "rev": "bd673ed936b6921a9c320aad5f9b7b99822a105f",
+        "revCount": 73,
         "type": "git",
         "url": "ssh://git@github.com/reonokiy/anso-secrets.git"
       },

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  machine,
   ...
 }:
 
@@ -9,6 +10,7 @@ with lib;
 
 let
   cfg = config.services.anso.social-nokiy-net;
+  read_token = machine.social-nokiy-net.token;
 in
 
 {
@@ -55,6 +57,61 @@ in
       locations."/" = {
         proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
         proxyWebsockets = true;
+      };
+      locations."/api/v1/timelines/public" = {
+        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyWebsockets = true;
+        extraConfig = ''
+          set $new_auth_header $http_authorization;
+          if ($http_authorization = "") {
+              set $new_auth_header "Bearer ${read_token}";
+          }
+          proxy_set_header Authorization $new_auth_header;
+        '';
+      };
+      locations."/api/v1/streaming" = {
+        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyWebsockets = true;
+        extraConfig = ''
+          set $new_auth_header $http_authorization;
+          if ($http_authorization = "") {
+              set $new_auth_header "Bearer ${read_token}";
+          }
+          proxy_set_header Authorization $new_auth_header;
+        '';
+      };
+      locations."/api/v1/status" = {
+        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyWebsockets = true;
+        extraConfig = ''
+          set $new_auth_header $http_authorization;
+          if ($http_authorization = "") {
+              set $new_auth_header "Bearer ${read_token}";
+          }
+          proxy_set_header Authorization $new_auth_header;
+        '';
+      };
+      locations."/api/v1/search" = {
+        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyWebsockets = true;
+        extraConfig = ''
+          set $new_auth_header $http_authorization;
+          if ($http_authorization = "") {
+              set $new_auth_header "Bearer ${read_token}";
+          }
+          proxy_set_header Authorization $new_auth_header;
+        '';
+      };
+      locations."/api/v1/accounts" = {
+        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyWebsockets = true;
+        extraConfig = ''
+          set $new_auth_header $http_authorization;
+          if ($http_authorization = "") {
+              set $new_auth_header "Bearer ${read_token}";
+          }
+          proxy_set_header Authorization $new_auth_header;
+        '';
       };
     };
 
