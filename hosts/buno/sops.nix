@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, config, ... }:
 
 {
   sops.defaultSopsFile = "${inputs.secrets}/buno.yaml";
@@ -18,5 +18,15 @@
     mode = "0440";
     owner = "smtp";
     group = "smtp";
+  };
+
+  sops.secrets."openobserve/user" = { };
+  sops.secrets."openobserve/password" = { };
+
+  sops.templates."openobserve.env" = {
+    content = ''
+      OPENOBSERVE_USER=${config.sops.placeholder."openobserve/user"}
+      OPENOBSERVE_PASSWORD=${config.sops.placeholder."openobserve/password"}
+    '';
   };
 }

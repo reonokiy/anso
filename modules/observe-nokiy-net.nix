@@ -56,6 +56,11 @@ in
           mountPoint = "/data";
           isReadOnly = false;
         };
+        "openobserve" = {
+          hostPath = config.sops.templates."openobserve.env".path;
+          mountPoint = "/etc/observe-nokiy-net/.env";
+          isReadOnly = true;
+        };
       };
       ephemeral = true;
       extraFlags = [
@@ -94,6 +99,7 @@ in
           ];
           environment.etc."observe-nokiy-net/docker-compose.yaml".source =
             openobserve + "/docker-compose.yaml";
+          environment.etc."observe-nokiy-net/vector.toml".source = openobserve + "/vector.toml";
           boot.tmp.cleanOnBoot = true;
 
           systemd.services."observe-nokiy-net" = {
@@ -104,6 +110,8 @@ in
             ];
             environment = {
               DATA_DIR = "/data";
+              VECTOR_CONFIG_PATH = "/etc/observe-nokiy-net/vector.toml";
+              OPENOBSERVE_URL = "https://observe.nokiy.net/api/default/observe_nokiy_net/_json";
             };
             script = "${pkgs.docker-compose}/bin/docker-compose -f /etc/observe-nokiy-net/docker-compose.yaml up";
             serviceConfig = {
@@ -111,6 +119,7 @@ in
               RestartSec = "30s";
               EnvironmentFile = [
                 "/data/.env"
+                "/etc/observe-nokiy-net/.env"
               ];
             };
           };
