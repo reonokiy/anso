@@ -66,4 +66,8 @@
   services.anso.perverse-social-nokiy-net = {
     enable = true;
   };
+
+  services.anso.git-nokiy-net = {
+    enable = true;
+  };
 }

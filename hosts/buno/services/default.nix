@@ -3,7 +3,7 @@
     ./alloy.nix
     ./authentik.nix
     ./coturn.nix
-    ./forgejo.nix
+    # ./forgejo.nix
     ./grafana.nix
     ./loki.nix
     ./mautrix-telegram.nix
