@@ -70,4 +70,8 @@
   services.anso.git-nokiy-net = {
     enable = true;
   };
+
+  services.anso.observe-nokiy-net = {
+    enable = true;
+  };
 }
