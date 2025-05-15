@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   nix.settings.experimental-features = [
@@ -18,7 +18,7 @@
   ];
 
   zramSwap = {
-    enable = true;
-    memoryPercent = 100;
+    enable = lib.mkDefault true;
+    memoryPercent = lib.mkDefault 100;
   };
 }

@@ -26,6 +26,7 @@
   };
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vault-bin" ];
+  zramSwap.memoryPercent = 200;
 
   users.users = {
     root.openssh.authorizedKeys.keys = [
