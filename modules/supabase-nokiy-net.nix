@@ -28,7 +28,7 @@ in
       allowedUDPPorts = [ 80 ];
     };
 
-    containers.supabase-nokiy-net = {
+    containers.supabase = {
       autoStart = true;
       privateNetwork = true;
       hostAddress = "10.42.0.5";

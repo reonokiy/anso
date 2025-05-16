@@ -23,7 +23,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    containers.perverse-social-nokiy-net = {
+    containers.perverse = {
       autoStart = true;
       privateNetwork = true;
       tmpfs = [

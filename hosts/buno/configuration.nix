@@ -75,4 +75,8 @@
   services.anso.observe-nokiy-net = {
     enable = true;
   };
+
+  services.anso.infisical-nokiy-net = {
+    enable = true;
+  };
 }

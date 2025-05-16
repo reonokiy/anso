@@ -26,12 +26,12 @@ in
       domain = "git.nokiy.net";
     };
 
-    services.nginx.virtualHosts."git.nokiy.net" = {
+    services.nginx.virtualHosts."git" = {
       enableACME = false;
       useACMEHost = "git.nokiy.net";
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://${config.containers.git-nokiy-net.localAddress}:80";
+        proxyPass = "http://${config.containers.git.localAddress}:80";
         proxyWebsockets = true;
         extraConfig = ''
           proxy_set_header Authorization $http_authorization;
@@ -40,7 +40,7 @@ in
       };
     };
 
-    containers.git-nokiy-net = {
+    containers.git = {
       autoStart = true;
       privateNetwork = true;
       tmpfs = [

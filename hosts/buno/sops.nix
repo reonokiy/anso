@@ -25,8 +25,8 @@
 
   sops.templates."openobserve.env" = {
     content = ''
-      OPENOBSERVE_USER=${config.sops.placeholder."openobserve/user"}
-      OPENOBSERVE_PASSWORD=${config.sops.placeholder."openobserve/password"}
+      OTLP_USER=${config.sops.placeholder."openobserve/user"}
+      OTLP_PASSWORD=${config.sops.placeholder."openobserve/password"}
     '';
   };
 }

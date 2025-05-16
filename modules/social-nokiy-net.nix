@@ -55,11 +55,11 @@ in
       useACMEHost = "social.nokiy.net";
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyPass = "http://${config.containers.social.localAddress}:80";
         proxyWebsockets = true;
       };
       locations."/api/v1/timelines/public" = {
-        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyPass = "http://${config.containers.social.localAddress}:80";
         proxyWebsockets = true;
         extraConfig = ''
           set $new_auth_header $http_authorization;
@@ -70,7 +70,7 @@ in
         '';
       };
       locations."/api/v1/streaming" = {
-        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyPass = "http://${config.containers.social.localAddress}:80";
         proxyWebsockets = true;
         extraConfig = ''
           set $new_auth_header $http_authorization;
@@ -81,7 +81,7 @@ in
         '';
       };
       locations."/api/v1/status" = {
-        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyPass = "http://${config.containers.social.localAddress}:80";
         proxyWebsockets = true;
         extraConfig = ''
           set $new_auth_header $http_authorization;
@@ -92,7 +92,7 @@ in
         '';
       };
       locations."/api/v1/search" = {
-        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyPass = "http://${config.containers.social.localAddress}:80";
         proxyWebsockets = true;
         extraConfig = ''
           set $new_auth_header $http_authorization;
@@ -103,7 +103,7 @@ in
         '';
       };
       locations."/api/v1/accounts" = {
-        proxyPass = "http://${config.containers.social-nokiy-net.localAddress}:80";
+        proxyPass = "http://${config.containers.social.localAddress}:80";
         proxyWebsockets = true;
         extraConfig = ''
           set $new_auth_header $http_authorization;
@@ -115,7 +115,7 @@ in
       };
     };
 
-    containers.social-nokiy-net = {
+    containers.social = {
       autoStart = true;
       privateNetwork = true;
       hostAddress = "10.42.0.3";

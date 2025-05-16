@@ -30,15 +30,15 @@ in
       useACMEHost = "bird.nokiy.net";
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://${config.containers.bird-nokiy-net.localAddress}:8080";
+        proxyPass = "http://${config.containers.bird.localAddress}:8080";
         proxyWebsockets = true;
       };
       locations."/api" = {
-        proxyPass = "http://${config.containers.bird-nokiy-net.localAddress}:8083";
+        proxyPass = "http://${config.containers.bird.localAddress}:8083";
         proxyWebsockets = true;
       };
       locations."/relay" = {
-        proxyPass = "http://${config.containers.bird-nokiy-net.localAddress}:8082";
+        proxyPass = "http://${config.containers.bird.localAddress}:8082";
         proxyWebsockets = true;
       };
       locations."/management.ManagementService/" = {
@@ -49,7 +49,7 @@ in
 
           grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          grpc_pass grpc://${config.containers.bird-nokiy-net.localAddress}:8083;
+          grpc_pass grpc://${config.containers.bird.localAddress}:8083;
           grpc_read_timeout 1d;
           grpc_send_timeout 1d;
           grpc_socket_keepalive on;
@@ -62,14 +62,14 @@ in
 
         grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-        grpc_pass grpc://${config.containers.bird-nokiy-net.localAddress}:8081;
+        grpc_pass grpc://${config.containers.bird.localAddress}:8081;
         grpc_read_timeout 1d;
         grpc_send_timeout 1d;
         grpc_socket_keepalive on;
       '';
     };
 
-    containers.bird-nokiy-net = {
+    containers.bird = {
       autoStart = true;
       privateNetwork = true;
       tmpfs = [
@@ -128,7 +128,7 @@ in
           environment.etc."bird-nokiy-net/docker-compose.yaml".text = docker-compose-file;
           boot.tmp.cleanOnBoot = true;
 
-          systemd.services."bird-nokiy-net" = {
+          systemd.services."bird" = {
             wantedBy = [ "multi-user.target" ];
             after = [
               "docker.service"

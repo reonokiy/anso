@@ -9,12 +9,12 @@
 with lib;
 
 let
-  cfg = config.services.anso.observe-nokiy-net;
-  openobserve = inputs.compose + "/openobserve";
+  cfg = config.services.anso.infisical-nokiy-net;
+  infisical = inputs.compose + "/infisical";
 in
 
 {
-  options.services.anso.observe-nokiy-net = {
+  options.services.anso.infisical-nokiy-net = {
     enable = mkOption {
       type = types.bool;
       default = true;
@@ -22,13 +22,13 @@ in
   };
 
   config = mkIf cfg.enable {
-    security.acme.certs."observe.nokiy.net" = {
-      domain = "observe.nokiy.net";
+    security.acme.certs."infisical.nokiy.net" = {
+      domain = "infisical.nokiy.net";
     };
 
-    services.nginx.virtualHosts."observe.nokiy.net" = {
+    services.nginx.virtualHosts."infisical.nokiy.net" = {
       enableACME = false;
-      useACMEHost = "observe.nokiy.net";
+      useACMEHost = "infisical.nokiy.net";
       forceSSL = true;
       listen = [
         {
@@ -38,7 +38,7 @@ in
         }
       ];
       locations."/" = {
-        proxyPass = "http://${config.containers.observe.localAddress}:80";
+        proxyPass = "http://${config.containers.infisical.localAddress}:80";
         proxyWebsockets = true;
         extraConfig = ''
           proxy_set_header Authorization $http_authorization;
@@ -47,26 +47,21 @@ in
       };
     };
 
-    containers.observe = {
+    containers.infisical = {
       autoStart = true;
       privateNetwork = true;
       tmpfs = [
         "/var"
       ];
-      hostAddress = "10.42.0.7";
-      localAddress = "10.43.0.7";
-      hostAddress6 = "fd00::10.42.0.7";
-      localAddress6 = "fd00::10.43.0.7";
+      hostAddress = "10.42.0.8";
+      localAddress = "10.43.0.8";
+      hostAddress6 = "fd00::10.42.0.8";
+      localAddress6 = "fd00::10.43.0.8";
       bindMounts = {
         "data" = {
-          hostPath = "/data/observe-nokiy-net";
+          hostPath = "/data/infisical-nokiy-net";
           mountPoint = "/data";
           isReadOnly = false;
-        };
-        "openobserve" = {
-          hostPath = config.sops.templates."openobserve.env".path;
-          mountPoint = "/etc/observe-nokiy-net/.env";
-          isReadOnly = true;
         };
       };
       ephemeral = true;
@@ -91,11 +86,9 @@ in
             enable = true;
             allowedTCPPorts = [
               80
-              5081
             ];
             allowedUDPPorts = [
               80
-              5081
             ];
           };
 
@@ -104,12 +97,10 @@ in
           environment.systemPackages = with pkgs; [
             docker-compose
           ];
-          environment.etc."observe-nokiy-net/docker-compose.yaml".source =
-            openobserve + "/docker-compose.yaml";
-          environment.etc."observe-nokiy-net/vector.toml".source = openobserve + "/vector.toml";
-          boot.tmp.cleanOnBoot = true;
+          environment.etc."infisical-nokiy-net/docker-compose.yaml".source =
+            infisical + "/docker-compose.yaml";
 
-          systemd.services."observe" = {
+          systemd.services."infisical" = {
             wantedBy = [ "multi-user.target" ];
             after = [
               "docker.service"
@@ -117,16 +108,14 @@ in
             ];
             environment = {
               DATA_DIR = "/data";
-              VECTOR_CONFIG_PATH = "/etc/observe-nokiy-net/vector.toml";
-              OTLP_URL = "https://observe.nokiy.net";
+              SITE_URL = "https://infisical.nokiy.net";
             };
-            script = "${pkgs.docker-compose}/bin/docker-compose -f /etc/observe-nokiy-net/docker-compose.yaml up";
+            script = "${pkgs.docker-compose}/bin/docker-compose -f /etc/infisical-nokiy-net/docker-compose.yaml up";
             serviceConfig = {
               Restart = "always";
               RestartSec = "30s";
               EnvironmentFile = [
                 "/data/.env"
-                "/etc/observe-nokiy-net/.env"
               ];
             };
           };
