@@ -1,13 +1,13 @@
 {
   imports = [
-    ./alloy.nix
+    # ./alloy.nix
     ./authentik.nix
     ./coturn.nix
     # ./forgejo.nix
-    ./grafana.nix
-    ./loki.nix
-    ./mautrix-telegram.nix
-    ./mimir.nix
+    # ./grafana.nix
+    # ./loki.nix
+    # ./mautrix-telegram.nix
+    # ./mimir.nix
     # ./nocodb.nix
     ./ntfy.nix
     # ./oauth2-proxy.nix
@@ -16,7 +16,7 @@
     ./rustic.nix
     ./social-nokiy-net.nix
     ./synapse.nix
-    ./vault.nix
+    # ./vault.nix
     # ./zitadel.nix
 
     ./legacy/gotosocial.nix
