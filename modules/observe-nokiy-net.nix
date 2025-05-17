@@ -118,7 +118,7 @@ in
             environment = {
               DATA_DIR = "/data";
               VECTOR_CONFIG_PATH = "/etc/observe-nokiy-net/vector.toml";
-              OTLP_URL = "https://observe.nokiy.net";
+              OTLP_URI = "https://observe.nokiy.net";
             };
             script = "${pkgs.docker-compose}/bin/docker-compose -f /etc/observe-nokiy-net/docker-compose.yaml up";
             serviceConfig = {

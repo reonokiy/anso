@@ -53,7 +53,7 @@
   };
 
   services.anso.affine-nokiy-net = {
-    enable = true;
+    enable = false;
   };
 
   services.anso.bird-nokiy-net = {

@@ -26,7 +26,7 @@ in
       domain = "git.nokiy.net";
     };
 
-    services.nginx.virtualHosts."git" = {
+    services.nginx.virtualHosts."git.nokiy.net" = {
       enableACME = false;
       useACMEHost = "git.nokiy.net";
       forceSSL = true;
