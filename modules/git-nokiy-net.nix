@@ -36,6 +36,11 @@ in
         extraConfig = ''
           proxy_set_header Authorization $http_authorization;
           proxy_pass_header Authorization;
+
+          proxy_set_header Accept-Encoding "";
+          sub_filter_types text/html;
+          sub_filter '</head>' '<script defer src="https://analytics.nokiy.net/script.js" data-website-id="121eaa65-6d06-474f-87b9-588ff1aba009"></script></head>';
+          sub_filter_once on;
         '';
       };
     };
