@@ -102,8 +102,8 @@ in
       config =
         { lib, pkgs, ... }:
         {
-          system.stateVersion = "24.11";
-          networking.useHostResolvConf = true;
+          system.stateVersion = "25.05";
+          networking.nameservers = [ "1.1.1.1" ];
           networking.firewall = {
             enable = true;
             allowedTCPPorts = [

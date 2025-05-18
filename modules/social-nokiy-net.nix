@@ -137,7 +137,8 @@ in
       config =
         { lib, ... }:
         {
-          system.stateVersion = "24.11";
+          system.stateVersion = "25.05";
+          networking.nameservers = [ "1.1.1.1" ];
           networking.useHostResolvConf = true;
           networking.firewall = {
             enable = true;

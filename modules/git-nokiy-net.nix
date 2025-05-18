@@ -73,8 +73,8 @@ in
       config =
         { lib, pkgs, ... }:
         {
-          system.stateVersion = "24.11";
-          networking.useHostResolvConf = true;
+          system.stateVersion = "25.05";
+          networking.nameservers = [ "1.1.1.1" ];
           networking.firewall = {
             enable = true;
             allowedTCPPorts = [
@@ -93,7 +93,7 @@ in
           environment.etc."git-nokiy-net/docker-compose.yaml".source = forgejo + "/docker-compose.yaml";
           boot.tmp.cleanOnBoot = true;
 
-          systemd.services."git-nokiy-net" = {
+          systemd.services.git = {
             wantedBy = [ "multi-user.target" ];
             after = [
               "docker.service"

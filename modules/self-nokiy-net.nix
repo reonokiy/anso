@@ -22,7 +22,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    containers.self = {
+    containers.selfn = {
       autoStart = true;
       privateNetwork = true;
       tmpfs = [
@@ -55,10 +55,12 @@ in
       config =
         { lib, pkgs, ... }:
         {
-          system.stateVersion = "24.11";
-          networking.useHostResolvConf = true;
+          system.stateVersion = "25.05";
+          networking.nameservers = [ "1.1.1.1" ];
           networking.firewall = {
             enable = true;
+            allowedTCPPorts = [ ];
+            allowedUDPPorts = [ ];
           };
 
           virtualisation.docker.enable = true;

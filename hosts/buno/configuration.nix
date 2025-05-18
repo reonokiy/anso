@@ -25,6 +25,12 @@
     };
   };
 
+  boot.kernel.sysctl = {
+    # Fix "Failed to allocate directory watch: Too many open files"
+    # or "Insufficent watch descriptors available."
+    "fs.inotify.max_user_instances" = 8192;
+  };
+
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vault-bin" ];
   zramSwap.memoryPercent = 200;
 
