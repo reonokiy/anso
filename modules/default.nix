@@ -8,6 +8,7 @@
     ./infisical-nokiy-net.nix
     ./observe-nokiy-net.nix
     ./perverse-social-nokiy-net.nix
+    ./self-nokiy-net.nix
     ./social-nokiy-net.nix
     ./supabase-nokiy-net.nix
   ];

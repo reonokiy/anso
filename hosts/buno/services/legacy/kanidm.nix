@@ -43,7 +43,7 @@ in
         mode = "0440";
         user = "kanidm";
         group = "kanidm";
-        argument = builtins.replaceStrings [ "\n" ] [ "\\n" ] kandiConfig;
+        argument = kandiConfig;
       };
     };
   };

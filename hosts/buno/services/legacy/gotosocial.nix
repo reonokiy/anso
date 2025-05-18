@@ -77,7 +77,7 @@ in
     };
     "/data/gotosocial/theme/rainbow-light.css" = {
       f = {
-        argument = builtins.replaceStrings [ "\n" ] [ "\\n" ] gotosocialThemeRainbowLight;
+        argument = gotosocialThemeRainbowLight;
         user = "gotosocial";
         group = "gotosocial";
         mode = "0640";

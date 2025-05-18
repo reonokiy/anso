@@ -83,4 +83,6 @@
   services.anso.infisical-nokiy-net = {
     enable = true;
   };
+
+  services.anso.self-nokiy-net.enable = true;
 }
