@@ -15,7 +15,7 @@
     recommendedOptimisation = false;
     recommendedGzipSettings = true;
     recommendedBrotliSettings = true;
-    recommendedZstdSettings = false;
+    recommendedZstdSettings = true;
 
     defaultListen = [
       {

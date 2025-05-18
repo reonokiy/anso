@@ -57,6 +57,14 @@ in
       locations."/" = {
         proxyPass = "http://${config.containers.social.localAddress}:80";
         proxyWebsockets = true;
+        extraConfig = ''
+          proxy_hide_header Content-Security-Policy;
+          add_header Content-Security-Policy "default-src 'self'; object-src 'none'; img-src 'self' blob:; media-src 'self'; script-src-elem 'self' https://analytics.nokiy.net; connect-src 'self' https://analytics.nokiy.net;" always;
+          proxy_set_header Accept-Encoding "";
+          sub_filter_types text/html;
+          sub_filter '</head>' '<script defer src="https://analytics.nokiy.net/script.js" data-website-id="b871202c-3434-4fec-9898-e808bd832244"></script></head>';
+          sub_filter_once on;
+        '';
       };
       locations."/api/v1/timelines/public" = {
         proxyPass = "http://${config.containers.social.localAddress}:80";

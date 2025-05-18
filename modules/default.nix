@@ -2,6 +2,7 @@
   imports = [
     ./authentik
     ./affine-nokiy-net.nix
+    ./analytics-nokiy-net.nix
     ./bird-nokiy-net.nix
     ./elk-nokiy-net.nix
     ./git-nokiy-net.nix

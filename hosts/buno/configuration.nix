@@ -91,4 +91,5 @@
   };
 
   services.anso.self-nokiy-net.enable = true;
+  services.anso.analytics-nokiy-net.enable = true;
 }
