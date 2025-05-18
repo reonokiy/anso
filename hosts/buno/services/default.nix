@@ -13,8 +13,7 @@
     # ./oauth2-proxy.nix
     ./postgres.nix
     # ./pocket-id.nix
-    ./rustic.nix
-    ./social-nokiy-net.nix
+    # ./rustic.nix
     ./synapse.nix
     # ./vault.nix
     # ./zitadel.nix

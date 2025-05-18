@@ -47,6 +47,10 @@
     };
   };
 
+  services.anso.social-nokiy-net = {
+    enable = true;
+  };
+
   services.anso.elk-nokiy-net = {
     enable = true;
     image = "ghcr.io/elk-zone/elk:v0.16.0";
