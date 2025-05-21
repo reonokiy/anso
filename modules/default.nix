@@ -1,6 +1,7 @@
 {
   imports = [
-    ./authentik
+    # ./authentik
+    ./auth-nokiy-net.nix
     ./affine-nokiy-net.nix
     ./analytics-nokiy-net.nix
     ./bird-nokiy-net.nix

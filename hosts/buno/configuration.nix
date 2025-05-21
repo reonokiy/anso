@@ -53,10 +53,6 @@
     };
   };
 
-  services.anso.social-nokiy-net = {
-    enable = true;
-  };
-
   services.anso.elk-nokiy-net = {
     enable = true;
     image = "ghcr.io/elk-zone/elk:v0.16.0";
@@ -66,30 +62,17 @@
     enable = false;
   };
 
-  services.anso.bird-nokiy-net = {
-    enable = true;
-  };
-
   services.anso.supabase-nokiy-net = {
     enable = false;
   };
 
-  services.anso.perverse-social-nokiy-net = {
-    enable = true;
-  };
-
-  services.anso.git-nokiy-net = {
-    enable = true;
-  };
-
-  services.anso.observe-nokiy-net = {
-    enable = true;
-  };
-
-  services.anso.infisical-nokiy-net = {
-    enable = true;
-  };
-
-  services.anso.self-nokiy-net.enable = true;
+  services.anso.auth-nokiy-net.enable = true;
   services.anso.analytics-nokiy-net.enable = true;
+  services.anso.self-nokiy-net.enable = true;
+  services.anso.infisical-nokiy-net.enable = true;
+  services.anso.observe-nokiy-net.enable = true;
+  services.anso.git-nokiy-net.enable = true;
+  services.anso.perverse-social-nokiy-net.enable = true;
+  services.anso.bird-nokiy-net.enable = true;
+  services.anso.social-nokiy-net.enable = true;
 }
