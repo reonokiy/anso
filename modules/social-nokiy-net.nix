@@ -3,6 +3,7 @@
   lib,
   pkgs,
   machine,
+  inputs,
   ...
 }:
 
@@ -11,6 +12,7 @@ with lib;
 let
   cfg = config.services.anso.social-nokiy-net;
   read_token = machine.social-nokiy-net.token;
+  gotosocial = inputs.compose + "/gotosocial";
 in
 
 {
@@ -22,30 +24,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    sops.secrets."social-nokiy-net/oidc/client_id" = { };
-    sops.secrets."social-nokiy-net/oidc/client_secret" = { };
-    sops.secrets."social-nokiy-net/b2/access_key" = { };
-    sops.secrets."social-nokiy-net/b2/secret_key" = { };
-
-    sops.templates."social-nokiy-net.env" = {
-      content = ''
-        GTS_OIDC_CLIENT_ID=${config.sops.placeholder."social-nokiy-net/oidc/client_id"}
-        GTS_OIDC_CLIENT_SECRET=${config.sops.placeholder."social-nokiy-net/oidc/client_secret"}
-        GTS_STORAGE_S3_ACCESS_KEY=${config.sops.placeholder."social-nokiy-net/b2/access_key"}
-        GTS_STORAGE_S3_SECRET_KEY=${config.sops.placeholder."social-nokiy-net/b2/secret_key"}
-      '';
-    };
-
-    systemd.tmpfiles.settings."social-nokiy-net" = {
-      "/data/social-nokiy-net" = {
-        d = {
-          mode = "0771";
-          user = "service";
-          group = "service";
-        };
-      };
-    };
-
     security.acme.certs."social.nokiy.net" = {
       domain = "social.nokiy.net";
     };
@@ -59,7 +37,7 @@ in
         proxyWebsockets = true;
         extraConfig = ''
           proxy_hide_header Content-Security-Policy;
-          add_header Content-Security-Policy "default-src 'self'; object-src 'none'; img-src 'self' blob:; media-src 'self'; script-src-elem 'self' https://analytics.nokiy.net; connect-src 'self' https://analytics.nokiy.net;" always;
+          # add_header Content-Security-Policy "default-src 'self'; object-src 'none'; img-src 'self' blob:; media-src 'self'; script-src-elem 'self' https://analytics.nokiy.net; connect-src 'self' https://analytics.nokiy.net;" always;
           proxy_set_header Accept-Encoding "";
           sub_filter_types text/html;
           sub_filter '</head>' '<script defer src="https://analytics.nokiy.net/script.js" data-website-id="b871202c-3434-4fec-9898-e808bd832244"></script></head>';
@@ -126,75 +104,71 @@ in
     containers.social = {
       autoStart = true;
       privateNetwork = true;
+      tmpfs = [
+        "/var"
+      ];
       hostAddress = "10.42.0.3";
       localAddress = "10.43.0.3";
       hostAddress6 = "fd00::10.42.0.3";
       localAddress6 = "fd00::10.43.0.3";
       bindMounts = {
-        "social-nokiy-net.env" = {
-          hostPath = config.sops.templates."social-nokiy-net.env".path;
-          mountPoint = "/tmp/secrets/social-nokiy-net.env";
-          isReadOnly = true;
-        };
         "data" = {
           hostPath = "/data/social-nokiy-net";
           mountPoint = "/data";
           isReadOnly = false;
         };
       };
+      ephemeral = true;
+      extraFlags = [
+        "--system-call-filter=@keyring"
+        "--system-call-filter=bpf"
+        "--system-call-filter=@network-io"
+        "--system-call-filter=@basic-io"
+        "--system-call-filter=@io-event"
+        "--system-call-filter=@ipc"
+        "--system-call-filter=@process"
+        "--system-call-filter=@signal"
+        "--system-call-filter=@timer"
+        "--system-call-filter=@file-system"
+      ];
       config =
-        { lib, ... }:
+        { lib, pkgs, ... }:
         {
           system.stateVersion = "25.05";
           networking.nameservers = [ "1.1.1.1" ];
-          networking.useHostResolvConf = true;
           networking.firewall = {
             enable = true;
-            allowedTCPPorts = [ 80 ];
-            allowedUDPPorts = [ 80 ];
+            allowedTCPPorts = [
+              80
+            ];
+            allowedUDPPorts = [
+              80
+            ];
           };
 
-          users.users.gotosocial = {
-            uid = lib.mkForce 10000;
-            group = "gotosocial";
-          };
+          virtualisation.docker.enable = true;
+          virtualisation.docker.daemon.settings.registry-mirrors = [ "https://mirror.gcr.io" ];
+          environment.systemPackages = with pkgs; [
+            docker-compose
+          ];
+          environment.etc."social-nokiy-net/docker-compose.yaml".source = gotosocial + "/docker-compose.yaml";
 
-          users.groups.gotosocial = {
-            gid = lib.mkForce 10000;
-          };
-
-          services.gotosocial = {
-            enable = true;
-            openFirewall = true;
-            setupPostgresqlDB = false;
-            environmentFile = "/tmp/secrets/social-nokiy-net.env";
-            settings = {
-              host = "social.nokiy.net";
-              port = 80;
-              bind-address = "0.0.0.0";
-              trusted-proxies = [
-                "10.42.0.3"
-                "fd00::10.42.0.3"
+          systemd.services.social = {
+            wantedBy = [ "multi-user.target" ];
+            after = [
+              "docker.service"
+              "docker.socket"
+            ];
+            environment = {
+              DATA_DIR = "/data";
+            };
+            script = "${pkgs.docker-compose}/bin/docker-compose -f /etc/social-nokiy-net/docker-compose.yaml up";
+            serviceConfig = {
+              Restart = "always";
+              RestartSec = "30s";
+              EnvironmentFile = [
+                "/data/.env"
               ];
-              instance-languages = [
-                "zh-Hans-CN"
-                "en"
-              ];
-              accounts-allow-custom-css = true;
-              db-address = "/data/sqlite.db";
-              storage-backend = "s3";
-              storage-s3-endpoint = "s3.eu-central-003.backblazeb2.com";
-              storage-s3-bucket = "social-nokiy-net";
-              storage-s3-proxy = true;
-              oidc-enabled = true;
-              oidc-idp-name = "Nokiy Auth";
-              oidc-issuer = "https://auth.nokiy.net/application/o/gotosocial/";
-              oidc-link-existing = true;
-              oidc-allowed-groups = [
-                "gotosocial-admin"
-                "gotosocial-user"
-              ];
-              oidc-admin-groups = [ "gotosocial-admin" ];
             };
           };
         };

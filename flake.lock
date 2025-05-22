@@ -3,11 +3,11 @@
     "compose": {
       "flake": false,
       "locked": {
-        "lastModified": 1747850324,
-        "narHash": "sha256-JbjwpP2WLwtMwj6lvrOthWtBYsRzqu/PdJqD0Ge2rIw=",
+        "lastModified": 1747899321,
+        "narHash": "sha256-f+8SLgIZUfo1HOzlc56an3u80PWjYC0D4qz3mNnnRRc=",
         "owner": "reonokiy",
         "repo": "compose",
-        "rev": "a19bcf68b66a83a7e9ce81391b03a736feb2d875",
+        "rev": "eb323ed4487e32e0c0494013aa59092cadb67c14",
         "type": "github"
       },
       "original": {
