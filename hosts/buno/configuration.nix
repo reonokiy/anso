@@ -32,7 +32,7 @@
   };
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vault-bin" ];
-  zramSwap.memoryPercent = 200;
+  zramSwap.memoryPercent = 400;
 
   users.users = {
     root.openssh.authorizedKeys.keys = [
@@ -75,4 +75,5 @@
   services.anso.perverse-social-nokiy-net.enable = true;
   services.anso.bird-nokiy-net.enable = true;
   services.anso.social-nokiy-net.enable = true;
+  services.anso.synapse-nokiy-net.enable = true;
 }

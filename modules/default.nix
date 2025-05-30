@@ -13,5 +13,6 @@
     ./self-nokiy-net.nix
     ./social-nokiy-net.nix
     ./supabase-nokiy-net.nix
+    ./synapse-nokiy-net.nix
   ];
 }

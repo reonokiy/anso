@@ -14,7 +14,7 @@
     ./postgres.nix
     # ./pocket-id.nix
     # ./rustic.nix
-    ./synapse.nix
+    # ./synapse.nix
     # ./vault.nix
     # ./zitadel.nix
 

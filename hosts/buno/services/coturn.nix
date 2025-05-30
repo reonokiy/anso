@@ -1,6 +1,11 @@
 { config, ... }:
 
 {
+  sops.secrets."synapse/turn/secret" = {
+    mode = "0440";
+    owner = "turnserver";
+  };
+
   services.coturn = {
     enable = true;
     no-cli = true;
@@ -47,6 +52,4 @@
     postRun = "systemctl restart coturn.service";
     group = "turnserver";
   };
-
-  networking.hosts."127.0.0.1" = [ "turn.nokiy.net" ];
 }
