@@ -1,6 +1,7 @@
 build-on-remote := "false"
 generate-hardware-config := "false"
 initrd-ssh-key := "true"
+port := "22"
 
 default:
     @just --choose
@@ -45,6 +46,7 @@ install host target luks age:
         "nixos-anywhere",
         "--flake .#{{host}}",
         "--target-host {{target}}",
+        "-p {{port}}",
         build_on_remote_command if build_on_remote else "",
         generate_hardware_config_command if generate_hardware_config else "",
         initrd_ssh_key_command if initrd_ssh_key else "",

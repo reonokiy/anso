@@ -96,6 +96,15 @@
             ./hosts/buno
           ];
         };
+
+        nixosConfigurations.tone = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+            ./hosts/tone
+          ];
+        };
         # nixosConfigurations.deco = nixpkgs.lib.nixosSystem {
         #   system = "aarch64-linux";
         #   specialArgs =
@@ -130,15 +139,15 @@
             path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.buno;
           };
         };
-        # deploy.nodes.deco = {
-        #   hostname = "deco";
-        #   profiles.system = {
-        #     user = "root";
-        #     sshUser = "root";
-        #     autoRollback = false;
-        #     path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.buno;
-        #   };
-        # };
+        deploy.nodes.tone = {
+          hostname = "100.100.10.5";
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            autoRollback = true;
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.tone;
+          };
+        };
 
         checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       };
