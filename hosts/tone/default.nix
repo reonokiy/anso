@@ -6,5 +6,6 @@
     ./networking.nix
     ./tailscale.nix
     ../../share
+    ../../share/docker.nix
   ];
 }
