@@ -1,0 +1,3 @@
+{
+  microvm.hypervisor = "firecracker";
+}

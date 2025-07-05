@@ -23,6 +23,10 @@
       url = "github:reonokiy/compose?ref=main";
       flake = false;
     };
+    microvm = {
+      url = "github:astro/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -35,6 +39,7 @@
       disko,
       sops-nix,
       nixos-anywhere,
+      microvm,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -102,6 +107,7 @@
           modules = [
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
+            microvm.nixosModules.microvm
             ./hosts/tone
           ];
         };
