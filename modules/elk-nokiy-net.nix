@@ -14,7 +14,7 @@ in
   options.services.anso.elk-nokiy-net = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
     image = mkOption {
       type = types.str;

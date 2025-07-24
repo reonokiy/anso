@@ -15,12 +15,12 @@ in
   options.services.anso.cloud-nokiy-net = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 
   config = mkIf cfg.enable {
-    sops.secrets."cloud-nokiy-net/admin/password" = { 
+    sops.secrets."cloud-nokiy-net/admin/password" = {
       mode = "0600";
       owner = "service";
       group = "service";
@@ -63,7 +63,7 @@ in
         };
       };
     };
-    
+
     security.acme.certs."cloud.nokiy.net" = {
       domain = "cloud.nokiy.net";
     };
@@ -97,80 +97,82 @@ in
           isReadOnly = false;
         };
       };
-      config = {lib, ...}: {
-        system.stateVersion = "24.11";
-        networking.useHostResolvConf = true;
-        networking.firewall = {
-          enable = true;
-          allowedTCPPorts = [ 80 ];
-          allowedUDPPorts = [ 80 ];
-        };
+      config =
+        { lib, ... }:
+        {
+          system.stateVersion = "24.11";
+          networking.useHostResolvConf = true;
+          networking.firewall = {
+            enable = true;
+            allowedTCPPorts = [ 80 ];
+            allowedUDPPorts = [ 80 ];
+          };
 
-        users.users.nextcloud = {
-          uid = lib.mkForce 10000;
-          group = "nextcloud";
-          isSystemUser = true;
-        };
-        users.groups.nextcloud = {
-          gid = lib.mkForce 10000;
-        };
-        users.users.postgres = {
-          uid = lib.mkForce 10001;
-          group = "postgres";
-          isSystemUser = true;
-        };
-        users.groups.postgres.gid = lib.mkForce 10001;
+          users.users.nextcloud = {
+            uid = lib.mkForce 10000;
+            group = "nextcloud";
+            isSystemUser = true;
+          };
+          users.groups.nextcloud = {
+            gid = lib.mkForce 10000;
+          };
+          users.users.postgres = {
+            uid = lib.mkForce 10001;
+            group = "postgres";
+            isSystemUser = true;
+          };
+          users.groups.postgres.gid = lib.mkForce 10001;
 
-        services.nextcloud = {
-          enable = true;
-          package = pkgs.nextcloud31;
-          home = "/data/nextcloud";
-          hostName = "cloud.nokiy.net";
-          configureRedis = true;
-          config = {
-            dbtype = "pgsql";
-            dbhost = "/run/postgresql";
-            dbuser = "nextcloud";
-            dbname = "nextcloud";
-            adminuser = "reonokiy";
-            adminpassFile = "/tmp/secrets/nextcloud-admin-password";
-            # objectstore.s3 = {
-            #   enabled = true;
-            #   autocreate = true;
-            #   useSsl = true;
-            #   bucket = "cloud-nokiy-net";
-            #   hostname = "s3.eu-central-003.backblazeb2.com";
-            #   key = "003f00010000000000000000";
-            #   secretFile = "/tmp/secrets/nextcloud/s3-secret-key";
-            #   sseCKeyFile = "/tmp/secrets/nextcloud/s3-sse-c-key";
-            # };
+          services.nextcloud = {
+            enable = true;
+            package = pkgs.nextcloud31;
+            home = "/data/nextcloud";
+            hostName = "cloud.nokiy.net";
+            configureRedis = true;
+            config = {
+              dbtype = "pgsql";
+              dbhost = "/run/postgresql";
+              dbuser = "nextcloud";
+              dbname = "nextcloud";
+              adminuser = "reonokiy";
+              adminpassFile = "/tmp/secrets/nextcloud-admin-password";
+              # objectstore.s3 = {
+              #   enabled = true;
+              #   autocreate = true;
+              #   useSsl = true;
+              #   bucket = "cloud-nokiy-net";
+              #   hostname = "s3.eu-central-003.backblazeb2.com";
+              #   key = "003f00010000000000000000";
+              #   secretFile = "/tmp/secrets/nextcloud/s3-secret-key";
+              #   sseCKeyFile = "/tmp/secrets/nextcloud/s3-sse-c-key";
+              # };
+            };
+          };
+
+          services.postgresql = {
+            enable = true;
+            package = pkgs.postgresql_17;
+            enableTCPIP = false;
+            dataDir = "/data/postgres/17";
+            ensureDatabases = [
+              "nextcloud"
+            ];
+            ensureUsers = [
+              {
+                name = "nextcloud";
+                ensureDBOwnership = true;
+              }
+            ];
+          };
+
+          services.postgresqlBackup = {
+            enable = true;
+            compression = "zstd";
+            databases = [ "nextcloud" ];
+            location = "/data/postgres/backup";
+            startAt = "*-*-* 04:30:00 Asia/Shanghai";
           };
         };
-
-        services.postgresql = {
-          enable = true;
-          package = pkgs.postgresql_17;
-          enableTCPIP = false;
-          dataDir = "/data/postgres/17";
-          ensureDatabases = [
-            "nextcloud"
-          ];
-          ensureUsers = [
-            {
-              name = "nextcloud";
-              ensureDBOwnership = true;
-            }
-          ];
-        };
-
-        services.postgresqlBackup = {
-          enable = true;
-          compression = "zstd";
-          databases = [ "nextcloud" ];
-          location = "/data/postgres/backup";
-          startAt = "*-*-* 04:30:00 Asia/Shanghai";
-        };
-      };
     };
   };
 }

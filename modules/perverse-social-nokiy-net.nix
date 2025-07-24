@@ -18,7 +18,7 @@ in
   options.services.anso.perverse-social-nokiy-net = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 

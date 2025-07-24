@@ -19,7 +19,7 @@ in
   options.services.anso.social-nokiy-net = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 

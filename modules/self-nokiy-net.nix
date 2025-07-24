@@ -17,7 +17,7 @@ in
   options.services.anso.self-nokiy-net = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 

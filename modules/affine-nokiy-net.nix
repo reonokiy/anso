@@ -15,7 +15,7 @@ in
   options.services.anso.affine-nokiy-net = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
     service = {
       name = mkOption {

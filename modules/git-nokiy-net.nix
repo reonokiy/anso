@@ -17,7 +17,7 @@ in
   options.services.anso.git-nokiy-net = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 

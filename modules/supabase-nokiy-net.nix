@@ -15,7 +15,7 @@ in
   options.services.anso.supabase-nokiy-net = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 
