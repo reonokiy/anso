@@ -18,7 +18,7 @@
     # ./vault.nix
     # ./zitadel.nix
 
-    ./legacy/gotosocial.nix
-    ./legacy/kanidm.nix
+    # ./legacy/gotosocial.nix
+    # ./legacy/kanidm.nix
   ];
 }
