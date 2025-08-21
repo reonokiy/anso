@@ -1,14 +1,14 @@
-{lib, ...}:
+{ lib, ... }:
 
 {
   virtualisation.oci-containers = {
-    backend = "podman";
+    backend = "docker";
   };
 
-  virtualisation = {
-    podman = {
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
       enable = true;
-      defaultNetwork.settings.dns_enabled = true;
     };
   };
 

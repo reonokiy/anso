@@ -137,7 +137,7 @@
           };
         };
         deploy.nodes.buno = {
-          hostname = "100.100.10.2";
+          hostname = "buno.i.nokiy.net";
           profiles.system = {
             user = "root";
             sshUser = "root";
