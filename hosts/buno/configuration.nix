@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
   imports = [
@@ -39,6 +39,24 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDHUXigvKgHHaOQcE+xr8uZPZuj2JSRk0dFEEzDsaZBy"
     ];
   };
+
+  users.users.buno = {
+    isNormalUser = true;
+    group = "buno";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDHUXigvKgHHaOQcE+xr8uZPZuj2JSRk0dFEEzDsaZBy"
+    ];
+  };
+
+  users.groups.buno = {
+    members = [ "buno" ];
+  };
+
+  environment.systemPackages = with pkgs; [
+    git
+    curl
+    wget
+  ];
 
   services = {
     openssh = {
