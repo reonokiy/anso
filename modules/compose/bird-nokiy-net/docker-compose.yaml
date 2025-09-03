@@ -57,7 +57,7 @@ services:
         max-size: "500m"
         max-file: "2"
   management:
-    image: netbirdio/management:0.43.3
+    image: netbirdio/management:0.56.0
     restart: unless-stopped
     networks: [ netbird ]
     ports:
