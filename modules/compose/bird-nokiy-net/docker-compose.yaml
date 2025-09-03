@@ -30,7 +30,7 @@ services:
         max-size: "500m"
         max-file: "2"
   signal:
-    image: netbirdio/signal:0.43.3
+    image: netbirdio/signal:0.56.0
     restart: unless-stopped
     networks: [ netbird ]
     ports:
